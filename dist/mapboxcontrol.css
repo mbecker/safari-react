@@ -1,0 +1,26 @@
+
+.leaflet-top, .leaflet-bottom {
+  z-index: 2!important;
+}
+.leaflet-right.leaflet-top{
+	left: 0px!important;
+	right: auto!important;
+	bottom: 0px!important;
+	top: auto!important;
+}
+.leaflet-control-layers.leaflet-control{
+	margin-left: 48px!important;
+	margin-bottom: 20px!important;
+	margin-top: 10px!important;
+	margin-right: 0px!important;
+}
+.leaflet-control-layers-toggle {
+	background-size: cover;
+	width: 26px!important;
+    height: 26px!important;
+}
+.leaflet-control-layers {
+	border-radius: 0px!important;
+	box-shadow: 0px!important;
+}
+

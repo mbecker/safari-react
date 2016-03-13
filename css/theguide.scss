@@ -1,0 +1,43 @@
+/*
+ * TheGuide v1.0.0 (http://shamsoft.net/theguide)
+ * Copyright 2016 ShaMSofT
+ * Licensed under the Themeforest Standard Licenses
+ */
+
+// Core variables and mixins
+@import "scss/variables";
+@import "scss/mixins";
+
+// Core CSS
+@import "scss/typography";
+@import "./scss/sections";
+@import "./scss/content";
+@import "scss/header";
+@import "./scss/site-navigation";
+@import "./scss/page-navigation";
+@import "./scss/footer";
+@import "./scss/form";
+@import "./scss/labels";
+@import "./scss/alerts";
+@import "./scss/buttons";
+@import "./scss/tables";
+
+// Components
+@import "./scss/tab";
+@import "./scss/code";
+@import "./scss/step";
+@import "./scss/views";
+@import "./scss/color";
+@import "./scss/features";
+@import "./scss/files";
+@import "./scss/media";
+@import "./scss/counter";
+@import "./scss/testimonial";
+@import "./scss/requirements";
+
+// Pages
+@import "./scss/faq";
+@import "./scss/changelog";
+
+// Others
+@import "./scss/utility";
