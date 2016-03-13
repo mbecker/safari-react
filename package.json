@@ -8,7 +8,7 @@
     "postinstall": "node ./node_modules/webpack/bin/webpack.js -p --config webpack.prod.config.js --profile --progress --colors",
     "production": "SET NODE_ENV=production&&node ./node_modules/webpack/bin/webpack.js -p --config webpack.prod.config.js --profile --progress --colors&&node appserver",
     "dev": "webpack-dev-server --devtool eval --host $IP --port $PORT --config webpack.config.js --history-api-fallback --hot --inline --progress --colors",
-    "local": "webpack-dev-server --devtool eval --host 192.168.2.113 --port 8080 --config webpack.config.js --history-api-fallback --hot --inline --progress --colors",
+    "local": "webpack-dev-server --devtool eval --host localhost --port 8080 --config webpack.config.js --history-api-fallback --hot --inline --progress --colors",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js",
     "test:watch": "npm run test -- --watch",
     "deploy": "SET NODE_ENV=production && webpack -p --config webpack.prod.config.js --profile --progress --colors"

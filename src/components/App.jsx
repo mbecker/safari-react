@@ -1,10 +1,9 @@
 import React from 'react'
-import { Header, Content, Footer } from './../page'
-import { connect } from 'react-redux';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import { connect } from 'react-redux';
 import * as actions from './../reducer/actions';
 
-
+import { Header, Content, Footer } from './../page'
 import { Nav, NavItem } from './../page'
 
 const AppPage = React.createClass({
@@ -14,11 +13,10 @@ const AppPage = React.createClass({
             name: 'safari.digital'
         }
     },
-    componentWillMount(){
-        this.props.setFooterVisible(true);
-        this.props.setFooterBig(true);
+    componentWillMount() {
     },
     componentDidMount() {
+
         window.addEventListener('scroll', this.handleScroll);
     },
     handleScroll(e) {
@@ -31,6 +29,7 @@ const AppPage = React.createClass({
     },
     mixins: [PureRenderMixin],
     render() {
+
         return (
             <div>
               { /* Wrap whole page */ }

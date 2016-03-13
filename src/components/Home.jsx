@@ -2,13 +2,17 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import * as actions from './../reducer/actions';
-import { Content, Parallax } from './../page'
+import { Content } from './../page'
 
 const Home = React.createClass({
     mixins: [PureRenderMixin],
-    componentWillMount() {
+    componentWillMount() {       
+        console.log("APP HOME");
+        console.log("Footer visibile: " + this.props.footerVisible);
         this.props.setHeaderImage(true);
+        this.props.setFooterVisible(true);
         this.props.setFooterBig(true);
+        console.log("Footer visibile: " + this.props.footerVisible);
     },
     componentDidMount: function() {
         if (!document.body.classList.contains('transparent-nav')) {
@@ -75,8 +79,15 @@ const Home = React.createClass({
     }
 })
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
+        authenticate: state.reducer.getIn(['api', 'user', 'authenticate']),
+        authenticated: state.reducer.getIn(['api', 'user', 'authenticated']),
+        error: state.reducer.getIn(['api', 'user', 'error']),
+        email: state.reducer.getIn(['user', 'email']),
+        headerCoverImage: state.reducer.getIn(['page', 'header', 'image']),
+        footerBig: state.reducer.getIn(['page', 'footer', 'big']),
+        footerVisible: state.reducer.getIn(['page', 'footer', 'visible'])
     };
 }
 
