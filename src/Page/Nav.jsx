@@ -53,8 +53,8 @@ export class Nav extends React.Component {
             <nav className="site-navigation">
               <div className="container">
                 <div className="logo">
-                  <a className="logo-default" href="index.html"><img src="img/logo.png" alt="logo" /></a>
-                  <a className="logo-transparent" href="index.html"></a>
+                  <Link to="/" className="logo-default"><img src="img/logo.png" alt="logo" /></Link>
+                  <Link to="/" className="logo-transparent"></Link>
                 </div>
                 <a className="navbar-toggle" refs="navbartoggle" onClick={ this.showResponsiveNav.bind(this) }><i className="fa fa-bars"></i></a>
                 <ul className="nav-menu" ref="navigation">
