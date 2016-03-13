@@ -1,0 +1,13 @@
+# loggingEnabled - controls whether stdout and stderr streams from node processes are captured and made available over HTTP
+loggingEnabled: true
+
+# maxLogFiles - maximum number of log files in the logDirectory; once exceeded, old log files are removed
+maxLogFiles: 20
+
+devErrorsEnabled: true
+
+# enableXFF - controls whether iisnode adds or modifies the X-Forwarded-For request HTTP header with the IP address of the remote host
+enableXFF: false
+
+# nodeProcessCommandLine - Specify custom node exe
+nodeProcessCommandLine: "D:\home\site\wwwroot\bin\node.exe"
