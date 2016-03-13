@@ -22,7 +22,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "engines":{"node": "5.7.0"}
+  "engines": {
+    "node": "5.7.0"
+  },
   "devDependencies": {
     "babel-core": "6.6.4",
     "babel-loader": "6.2.4",
