@@ -45,6 +45,8 @@
     "redux-mock-store": "0.0.6",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1",
+    "webpack-hot-middleware": "2.10.0",
+    "webpack-dev-middleware": "1.5.1",
     "webpack-hot-middleware": "2.10.0"
   },
   "dependencies": {
@@ -72,8 +74,6 @@
     "sass-loader": "^3.1.2",
     "socket.io-client": "^1.4.5",
     "style-loader": "^0.13.0",
-    "timekeeper": "0.0.5",
-    "webpack-dev-middleware": "1.5.1",
-    "webpack-hot-middleware": "2.10.0"
+    "timekeeper": "0.0.5"
   }
 }
