@@ -1,4 +1,4 @@
-.leaflet-bottom.leaflet-left{
+.leaflet-bottom.leaflet-right, .leaflet-bottom.leaflet-left{
     z-index: 1;
 }
 

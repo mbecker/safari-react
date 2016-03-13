@@ -15,7 +15,7 @@ export class MapBox extends React.Component {
         this.headerHeight;
         this.footerHeight;
         this.state = {
-            mapHeight: window.innerHeight - 60
+            mapHeight: window.innerHeight
         };
     };
 
@@ -189,7 +189,7 @@ export class MapBox extends React.Component {
     handleResize(e) {
         // this.headerHeight = document.getElementById('header2').offsetHeight;
         this.setState({
-            mapHeight: window.innerHeight - 60
+            mapHeight: window.innerHeight
         });
     }
 

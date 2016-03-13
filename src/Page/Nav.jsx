@@ -20,20 +20,22 @@ export class Nav extends React.Component {
     }
 
     handleClick(e) {
-        // Listen for clicks on body / div 'app'
-        // If user clicks outside menu and menu is open, then close the menu
-        if (e.target != this.refs.navigation && hasClass(document.getElementById('body'), 'offcanvas-show')) {
-            toggle(document.getElementById('body'), 'offcanvas-show');
+        // Listen for clicks on body / div 'app'        
+        // If user clicks outside menu and outsode menu hamburger and menu is open, then close the menu
+       console.log(e.target);
+        if (e.target.id != 'navbartoggle' && e.target != this.refs.navigation && hasClass(document.getElementById('body'), 'offcanvas-show')) {
+            return toggle(document.getElementById('body'), 'offcanvas-show');
         }
+
     }
 
     showResponsiveNav(e) {
         e.preventDefault();
         if (document.body.classList.contains('offcanvas-show')) {
-            document.body.style.oberflow = 'hidden';
+            document.body.style.overflow = 'hidden';
             document.body.classList.remove('offcanvas-show');
         } else {
-            document.body.style.oberflow = 'visible';
+            document.body.style.overflow = 'visible';
             document.body.classList.add('offcanvas-show');
         }
 
@@ -56,7 +58,7 @@ export class Nav extends React.Component {
                   <Link to="/" className="logo-default"><img src="img/logo.png" alt="logo" /></Link>
                   <Link to="/" className="logo-transparent"></Link>
                 </div>
-                <a className="navbar-toggle" refs="navbartoggle" onClick={ this.showResponsiveNav.bind(this) }><i className="fa fa-bars"></i></a>
+                <a className="navbar-toggle" id="navbartoggle" refs="navbartoggle" onClick={ this.showResponsiveNav.bind(this) }><i className="fa fa-bars" id="navbartoggle"></i></a>
                 <ul className="nav-menu" ref="navigation">
                   { this.props.children }
                 </ul>
