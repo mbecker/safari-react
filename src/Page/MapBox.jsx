@@ -2,18 +2,14 @@ import React from "react";
 import '../lib/events.js';
 import '../lib/leaflet-panel-layers.js';
 
-var Firebase = require('firebase');
-const FireBaseRef = new Firebase("https://safaridigital.firebaseio.com/maps/addo");
-var geoFire = new GeoFire(FireBaseRef);
-
-
-
 export class MapBox extends React.Component {
     constructor() {
         super();
         this.handleResize = this.handleResize.bind(this);
         this.headerHeight;
         this.footerHeight;
+
+
         this.state = {
             mapHeight: window.innerHeight
         };
@@ -27,6 +23,9 @@ export class MapBox extends React.Component {
                 mapHeight: window.innerHeight - 60
             });
         });
+
+        const FireBaseRef = new Firebase("https://safaridigital.firebaseio.com/maps/addo");
+        var geoFire = new GeoFire(FireBaseRef);
 
         // Provide your access token
         L.mapbox.accessToken = 'pk.eyJ1IjoibWJlY2tlciIsImEiOiJjaWt2MDZxbDkwMDFzd3ptNXF3djVhYW42In0.9Lavn2fn_0tg-QVrPhwEzA';
@@ -64,7 +63,7 @@ export class MapBox extends React.Component {
         // Create a map in the div #map
         var map = L.mapbox.map('map', '', {
             zoomControl: false
-        }).setView(geoLocation, 12);
+        });
 
         new L.Control.Zoom({
             position: 'bottomleft'
@@ -180,6 +179,34 @@ export class MapBox extends React.Component {
                     }
                 ]
             }).addTo(map);
+
+        // GeoFire
+        geoFire.get("center").then(function(location) {
+            if (location === null) {
+                console.log("Provided key is not in GeoFire");
+                geoFire.set("center", [-33.551696, 25.806198]).then(function(location) {
+                    console.log("Provided key has been added to GeoFire:" + location);
+                }, function(error) {
+                    console.log("Error: " + error);
+                });
+            } else {
+                console.log("Provided key has a location of " + location);
+                map.setView(location, 12);
+            }
+        }, function(error) {
+            console.log("Error: " + error);
+        });
+
+        
+        // console.log("Generated key from push: " + newPostRef.key());
+
+        map.on('click', function(e) {
+            
+            var newGeoPosition = [e.latlng.lat, e.latlng.lng];
+        geoFire.push(newGeoPosition).then(function(location) {
+            alert("GeoPosition added: " + newGeoPosition);
+        });
+        });
     }
 
     componentWillUnmount() {

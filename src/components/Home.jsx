@@ -7,12 +7,9 @@ import * as actions from './../reducer/actions';
 const Home = React.createClass({
     mixins: [PureRenderMixin],
     componentWillMount() {       
-        console.log("APP HOME");
-        console.log("Footer visibile: " + this.props.footerVisible);
         this.props.setHeaderImage(true);
         this.props.setFooterVisible(true);
         this.props.setFooterBig(true);
-        console.log("Footer visibile: " + this.props.footerVisible);
     },
     componentDidMount: function() {
         if (!document.body.classList.contains('transparent-nav')) {
