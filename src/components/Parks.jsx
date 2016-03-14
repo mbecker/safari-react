@@ -45,7 +45,9 @@ const parks = [
 const ParksPage = React.createClass({	
 	mixins: [PureRenderMixin],
     componentWillMount: function() {
-        
+        this.props.setHeaderImage(true);
+        this.props.setFooterVisible(true);
+        this.props.setFooterBig(true);
     },
     render() {
         return (
