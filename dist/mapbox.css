@@ -244,4 +244,13 @@ label {
 
 .map-link-showallmaps {
     display: none;
+    cursor: pointer;
+}
+
+.leaflet-panel-layers-grouplabel{
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+.leaflet-panel-layers-item span {
+    font-weight: 400;
 }

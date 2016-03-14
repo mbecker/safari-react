@@ -12,7 +12,7 @@ export class Nav extends React.Component {
     };
 
     componentDidMount() {
-        document.getElementById('app').addEventListener('click', this.handleClick);
+        
     }
 
     componentWillUnmount() {
@@ -22,8 +22,9 @@ export class Nav extends React.Component {
     handleClick(e) {
         // Listen for clicks on body / div 'app'        
         // If user clicks outside menu and outsode menu hamburger and menu is open, then close the menu
-       console.log(e.target);
         if (e.target.id != 'navbartoggle' && e.target != this.refs.navigation && hasClass(document.getElementById('body'), 'offcanvas-show')) {
+            // remove eventlistener for click on 'app' to close menu with click outside menu
+            document.getElementById('app').removeEventListener('click', this.handleClick);
             return toggle(document.getElementById('body'), 'offcanvas-show');
         }
 
@@ -32,9 +33,15 @@ export class Nav extends React.Component {
     showResponsiveNav(e) {
         e.preventDefault();
         if (document.body.classList.contains('offcanvas-show')) {
+            // Hide Menu; remove eventlistener for click on 'app' to close menu with click outside menu
+            document.getElementById('app').removeEventListener('click', this.handleClick);
+            
             document.body.style.overflow = 'hidden';
             document.body.classList.remove('offcanvas-show');
         } else {
+            // Show Menu; add eventlistener for click on 'app' to close menu with click outside menu
+            document.getElementById('app').addEventListener('click', this.handleClick);
+            
             document.body.style.overflow = 'visible';
             document.body.classList.add('offcanvas-show');
         }

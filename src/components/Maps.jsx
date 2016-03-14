@@ -3,7 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import * as actions from './../reducer/actions';
 
-import { MapBox } from './../page'
+import { MapBox } from './../Page'
 
 const position = [51.505, -0.09];
 

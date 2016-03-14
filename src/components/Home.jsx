@@ -2,7 +2,7 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import * as actions from './../reducer/actions';
-import { Content } from './../page'
+
 
 const Home = React.createClass({
     mixins: [PureRenderMixin],

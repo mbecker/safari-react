@@ -44,6 +44,7 @@
             top: 100%;
             opacity: 1;
             visibility: visible;
+            color: #fff;
         }
     }
     .nav-menu {
@@ -368,13 +369,15 @@
                 color: $color-gray-light;
                 border-top: 0px solid $color-primary;
                 transition: color $duration-promptly linear, line-height $duration-promptly linear;
+                /*
                 &:hover {
-                    color: $color-primary;
+                    color: #fff;
                     text-decoration: none;
                     border-top: 0px;
                 }
+                */
                 &.active {
-                    color: $color-primary;
+                    color: #fff;
                     border-top: 0px solid $color-primary;
                 }
             }

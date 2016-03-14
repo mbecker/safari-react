@@ -3,8 +3,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import * as actions from './../reducer/actions';
 
-import { Header, Content, Footer } from './../page'
-import { Nav, NavItem } from './../page'
+import { Header, Content, Footer } from './../Page'
+import { Nav, NavItem } from './../Page'
 
 const AppPage = React.createClass({
     mixins: [PureRenderMixin],

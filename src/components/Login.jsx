@@ -4,8 +4,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import * as actions from './../reducer/actions';
 
-import { Content } from './../page'
-
 
 export const LoginContainer = React.createClass({
     mixins: [PureRenderMixin],
