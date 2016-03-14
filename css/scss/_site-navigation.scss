@@ -184,9 +184,9 @@
         .nav-menu a,
         .navbar-toggle {
             color: rgba(255, 255, 255, .7);
-            &:hover,
+            
             &.active {
-                color: #fff;
+                color: $color-primary;
                 border-top-color: #fff;
             }
         }
@@ -196,7 +196,7 @@
                 border: 0px;
             }
         }
-        .nav-menu > li:hover > a {
+        .nav-menu > li > a:hover {
             color: $color-primary;
             border-top-color: #fff;
         }
@@ -377,7 +377,7 @@
                 }
                 */
                 &.active {
-                    color: #fff;
+                    color: $color-primary;
                     border-top: 0px solid $color-primary;
                 }
             }
