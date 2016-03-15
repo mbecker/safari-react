@@ -231,8 +231,14 @@ export class MapBox extends React.Component {
 
         FireBaseRef.orderByChild("timestamp").startAt(minute).on("child_added", function(snapshot) {
           console.log("Added to map: " + snapshot.val().timestamp);
-            var timestamp = snapshot.val().timestamp;
-          animalgroup.addLayer(L.marker(snapshot.val().l).bindPopup('Test 1'));
+          var date = new Date(snapshot.val().timestamp*1000);
+            var timestamp = new Date(snapshot.val().timestamp*1000);
+            // var date = timestamp + 1000 * 60 * 60 * 24 *7;
+            var content = '<h2>A ferry ride!<\/h2>' +
+        '<p>Start at: ' + date + '<br \/>' +
+        'Time:  ' + timestamp + '<\/p>';
+
+          animalgroup.addLayer(L.marker(snapshot.val().l).bindPopup(content));
         
           console.log(animalgroup)
         });
