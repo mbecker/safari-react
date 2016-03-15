@@ -50,6 +50,9 @@ export class MapBox extends React.Component {
         }).bindPopup('Bison Group');
 
         var lions = L.layerGroup([lion1, lion2, lion3, lion4]);
+        let animals = [];
+        let animalgroup = new L.layerGroup();
+
         var overlayMaps = {
             "Lions": lions,
             "Bisons": bisons,
@@ -104,6 +107,12 @@ export class MapBox extends React.Component {
             {
                 group: "All Animals",
                 layers: [
+                    {
+                        active: true,
+                        name: "Animals",
+                        layer: animalgroup,
+                        map: false
+                    },
                     {
                         active: true,
                         name: "Lions",
@@ -217,12 +226,17 @@ export class MapBox extends React.Component {
           console.log(offset);
           var estimatedServerTimeMs = new Date().getTime() + offset;
           console.log(estimatedServerTimeMs);
-          var minute = estimatedServerTimeMs - 1000 * 60 * 1;
+          var minute = estimatedServerTimeMs - 1000 * 60 * 60 * 24 *7;
           console.log(minute);
+
         FireBaseRef.orderByChild("timestamp").startAt(minute).on("child_added", function(snapshot) {
-          console.log("data");
-          console.log(snapshot.key())
+          console.log("Added to map: " + snapshot.val().timestamp);
+            var timestamp = snapshot.val().timestamp;
+          animalgroup.addLayer(L.marker(snapshot.val().l).bindPopup('Test 1'));
+        
+          console.log(animalgroup)
         });
+
         });
 
     }
