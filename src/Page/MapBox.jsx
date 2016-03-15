@@ -24,9 +24,6 @@ export class MapBox extends React.Component {
             });
         });
 
-        const FireBaseRef = new Firebase("https://safaridigital.firebaseio.com/maps/addo");
-        var geoFire = new GeoFire(FireBaseRef);
-
         // Provide your access token
         L.mapbox.accessToken = 'pk.eyJ1IjoibWJlY2tlciIsImEiOiJjaWt2MDZxbDkwMDFzd3ptNXF3djVhYW42In0.9Lavn2fn_0tg-QVrPhwEzA';
         // mapbox: //styles/mbecker/cilfmavza004qcykv7rasi2w3
@@ -181,6 +178,9 @@ export class MapBox extends React.Component {
             }).addTo(map);
 
         // GeoFire
+        const FireBaseRef = new Firebase("https://safaridigital.firebaseio.com/maps/addo");
+        var geoFire = new GeoFire(FireBaseRef);
+
         geoFire.get("center").then(function(location) {
             if (location === null) {
                 console.log("Provided key is not in GeoFire");
@@ -203,10 +203,28 @@ export class MapBox extends React.Component {
         map.on('click', function(e) {
             
             var newGeoPosition = [e.latlng.lat, e.latlng.lng];
-        geoFire.push(newGeoPosition).then(function(location) {
-            alert("GeoPosition added: " + newGeoPosition);
+            geoFire.push(newGeoPosition).then(function(location) {
+                alert("GeoPosition added: " + newGeoPosition);
+            });
+        });
+
+        // Get time
+        var offsetRef = new Firebase("https://safaridigital.firebaseio.com/.info/serverTimeOffset");
+        offsetRef.on("value", function(snap) {
+            console.log("TIME");
+          var offset = snap.val();
+          console.log(snap);
+          console.log(offset);
+          var estimatedServerTimeMs = new Date().getTime() + offset;
+          console.log(estimatedServerTimeMs);
+          var minute = estimatedServerTimeMs - 1000 * 60 * 1;
+          console.log(minute);
+        FireBaseRef.orderByChild("timestamp").startAt(minute).on("child_added", function(snapshot) {
+          console.log("data");
+          console.log(snapshot.key())
         });
         });
+
     }
 
     componentWillUnmount() {
