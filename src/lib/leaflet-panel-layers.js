@@ -297,7 +297,7 @@
                 optionsLink.text = "Maps";
 
                 var showAllMaps = this._showAllMapsLink = L.DomUtil.create('a', 'map-link-showallmaps', optionsContainer);
-                //showAllMaps.href = '#';
+                showAllMaps.href = '#';
                 showAllMaps.title = 'Layers';
                 showAllMaps.text = "Hide all maps";
 
