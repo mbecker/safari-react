@@ -25,7 +25,7 @@ const monthInMs = weekInMs * 30;
 L.mapbox.accessToken = 'pk.eyJ1IjoibWJlY2tlciIsImEiOiJjaWt2MDZxbDkwMDFzd3ptNXF3djVhYW42In0.9Lavn2fn_0tg-QVrPhwEzA';
 var map = new Object();
 
-export const Maps = React.createClass({
+export const Maps2 = React.createClass({
     mixins: [PureRenderMixin, ReactFireMixin],
     getInitialState() {
         this._map = new Object();
@@ -317,8 +317,20 @@ export const Maps = React.createClass({
         e.preventDefault();
 
         this.refs.sidebar.scrollTop = 0;
-        toggle(this.refs.sidebar, 'sidebar-visible');
-        toggle(this.refs.maprow, 'sidebar-visible');
+        toggle(this.refs.sidebar, 'hidden');
+        toggle(this.refs.stage, 'stage-open');
+        toggle(this.refs.stage, 'stage-open-left');
+    },
+    handleRightSidebar(e) {
+        // click on this link will cause ONLY child alert to fire
+        e.stopPropagation();
+        // stop default action of link
+        e.preventDefault();
+
+        this.refs.rightsidebar.scrollTop = 0;
+        toggle(this.refs.rightsidebar, 'hidden');
+        toggle(this.refs.stage, 'stage-open');
+        toggle(this.refs.stage, 'stage-open-right');
     },
     toggleSettingsPanel(e) {
         // click on this link will cause ONLY child alert to fire
@@ -335,51 +347,79 @@ export const Maps = React.createClass({
             height: this.state.mapHeight
         }
         return (
-            <div className="block block-inverse block-fill-height app-header">
-              <button onClick={ this.handleSidebar } type="button" className="navbar-toggle" data-target="#stage" data-toggle="stage" data-distance="-250">
-                <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-              </button>
-              <a className="navbar-brand" href="">
-                <strong style={ {    background: '#fff',    padding: 12,    borderRadius: 4,    color: '#28669F'} }>
-                                                                                                        safari
-                                                                                                        </strong>
-              </a>
-              <div className="block-xs-middle p-b-lg map-block">
-                <div className="row rtl map-row" ref="maprow">
-                  <div ref="sidebar" className="visible-width-sm visible-width-md visible-width-lg col-fixed-250 map-column stage-shelf stage-shelf-right" id="map-sidebar">
-                    <div className="map-nav-container">
-                      <ul className="map-nav-list nav nav-bordered nav-stacked clearfix" id="mapsettings">
-                        <li className="nav-header">Settings</li>
-                        <li className={ this.state.selectedItem == 1 ? "active" : null }>
-                          <a href="#" data-id="1" onClick={ this.toggleSettingsPanel }>Maps</a>
-                        </li>
-                        <li className={ this.state.selectedItem == 2 ? "active" : null }>
-                          <a href="#" data-id="2" onClick={ this.toggleSettingsPanel }>Animals</a>
-                        </li>
-                        <ul ref="mapsettings" className={ this.state.selectedItem == 1 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
-                        </ul>
-                        <ul ref="animalsettings" className={ this.state.selectedItem == 2 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
-                        </ul>
-                      </ul>
-                    </div>
-                    <ul id="live" ref="live" className="map-live nav nav-bordered nav-stacked">
-                      <li className="nav-divider"></li>
-                      <li className="nav-header">Live @Addo</li>
-                      <ul className="nav nav-bordered nav-stacked">
-                        { this.state.geopositions.map((result) => {
-                              return <ListItemWrapper key={ result.g } data={ result } />;
-                          }) }
-                      </ul>
-                    </ul>
-                  </div>
-                  <div className="col-xs-12 col-offset-250 map-column" style={ mapHeight } ref="map" id="maplayer">
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div>
+            <div className="stage-shelf hidden" id="sidebar" ref="sidebar">
+  <ul className="nav nav-bordered nav-stacked">
+    <li className="nav-header">Examples</li>
+    <li>
+      <a href="../index.html">Startup</a>
+    </li>
+    <li>
+      <a href="../minimal/index.html">Minimal</a>
+    </li>
+    <li>
+      <a href="../bold/index.html">Bold</a>
+    </li>
+    <li className="nav-divider"></li>
+    <li className="nav-header">Docs</li>
+    <li className="active">
+      <a href="../docs/index.html">Toolkit</a>
+    </li>
+    <li>
+      <a href="http://getbootstrap.com">Bootstrap</a>
+    </li>
+  </ul>
+</div>
+
+<div className="stage-shelf stage-shelf-right hidden" id="rightsidebar" ref="rightsidebar" >
+  <ul className="nav nav-bordered nav-stacked">
+    <li className="nav-header">Examples</li>
+    <li>
+      <a href="../index.html">Startup</a>
+    </li>
+    <li>
+      <a href="../minimal/index.html">Minimal</a>
+    </li>
+    <li>
+      <a href="../bold/index.html">Bold</a>
+    </li>
+    <li className="nav-divider"></li>
+    <li className="nav-header">Docs</li>
+    <li className="active">
+      <a href="../docs/index.html">Toolkit</a>
+    </li>
+    <li>
+      <a href="http://getbootstrap.com">Bootstrap</a>
+    </li>
+  </ul>
+</div>
+
+
+
+
+<div className="stage" id="app-stage" ref="stage">
+
+    <button className="btn btn-link stage-toggle" data-target="#app-stage" data-toggle="stage" onClick={ this.handleSidebar }>
+      <span className="icon icon-menu stage-toggle-icon"></span>
+      Menu
+    </button>
+
+    <button className="btn btn-link stage-toggle stage-toggle-right" data-target="#app-stage" data-toggle="stage" onClick={ this.handleRightSidebar }>
+      <span className="icon icon-menu stage-toggle-icon"></span>
+      Map
+    </button>
+    
+      
+      <div className="container docs-content" id="maplayer" style={ mapHeight }>
+
+
+
+        
+      </div>
+    
+
+  </div>
+</div>
 
             
 
@@ -394,7 +434,7 @@ function mapStateToProps(state, ownProps) {
 export default connect(
     mapStateToProps,
     actions
-)(Maps);
+)(Maps2);
 
 var ListItemWrapper = React.createClass({
 

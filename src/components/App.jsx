@@ -21,7 +21,7 @@ const AppPage = React.createClass({
     render() {
 
         return (
-            <div class="container map-container">
+            <div >
                         { this.props.children }
             </div>
         )

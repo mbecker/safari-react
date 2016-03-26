@@ -5,6 +5,7 @@ import Parks from './../components/Parks';
 import Park from './../components/Park';
 import Logout from './../components/Logout'
 import Maps from './../components/Maps'
+import Maps2 from './../components/Maps2'
 
 export default (store) => {
     function loggedInRedirectTo(nextState, replace, callback) {
@@ -33,7 +34,7 @@ export default (store) => {
 
     return (
     {
-        component: Maps,
+        component: AppPage,
         childRoutes: [
             {
                 onEnter: loggedInRedirectTo,
@@ -80,7 +81,7 @@ export default (store) => {
                 indexRoute: {
                     getComponent: (location, cb) => {
                         require.ensure([], (require) => {
-                            cb(null, Home)
+                            cb(null, Maps)
                         })
                     }
                 }
@@ -100,6 +101,15 @@ export default (store) => {
                 getComponent: (location, cb) => {
                     require.ensure([], (require) => {
                         cb(null, Maps)
+                    })
+                }
+
+            },
+            {
+                path: '/map2',
+                getComponent: (location, cb) => {
+                    require.ensure([], (require) => {
+                        cb(null, Maps2)
                     })
                 }
 
