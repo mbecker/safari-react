@@ -148,6 +148,14 @@ export const Maps2 = React.createClass({
                         layer: L.mapbox.tileLayer('mapbox.light'),
                         map: true,
                         visible: false
+                    },
+                    
+                    {
+                        name: "Addo Park",
+                        layer: L.mapbox.styleLayer('mapbox://styles/mbecker/cim9m5qa2007jadlzighrier4'),
+                        map: true,
+                        visible: false,
+                        active: false
                     }
                 ]
             }
@@ -403,7 +411,12 @@ export const Maps2 = React.createClass({
                 <button className="btn btn-link stage-toggle stage-toggle-right" data-target="#app-stage" data-toggle="stage" onClick={ this.handleRightSidebar }>
                   <span className="icon icon-menu stage-toggle-icon"></span> Map
                 </button>
-                <div className="container docs-content" id="maplayer" style={ mapHeight }>
+                <div className="container docs-content block block-inverse text-center" id="maplayer" style={ mapHeight }>
+                 <div className="block-foreground">
+    <h1 className="block-title">An embed block</h1>
+    <h4 className="text-muted">Use block-background to integrate interactive backgrounds.</h4>
+    <button className="btn btn-default btn-outline m-t">With a simple button</button>
+  </div>
                 </div>
               </div>
             </div>
