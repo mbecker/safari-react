@@ -149,7 +149,7 @@ export const Maps2 = React.createClass({
                         map: true,
                         visible: false
                     },
-                    
+
                     {
                         name: "Addo Park",
                         layer: L.mapbox.styleLayer('mapbox://styles/mbecker/cim9m5qa2007jadlzighrier4'),
@@ -350,6 +350,14 @@ export const Maps2 = React.createClass({
             selectedItem: e.currentTarget.dataset.id
         });
     },
+    closeBlock(e) {
+// click on this link will cause ONLY child alert to fire
+        e.stopPropagation();
+        // stop default action of link
+        e.preventDefault();
+
+        this.refs.block.style.display="none";
+    },
     render() {
         let mapHeight = {
             height: this.state.mapHeight
@@ -412,10 +420,10 @@ export const Maps2 = React.createClass({
                   <span className="icon icon-menu stage-toggle-icon"></span> Map
                 </button>
                 <div className="container docs-content block block-inverse text-center" id="maplayer" style={ mapHeight }>
-                 <div className="block-foreground">
+                 <div className="block-foreground" ref="block">
     <h1 className="block-title">An embed block</h1>
     <h4 className="text-muted">Use block-background to integrate interactive backgrounds.</h4>
-    <button className="btn btn-default btn-outline m-t">With a simple button</button>
+    <button className="btn btn-default btn-outline m-t" onClick={ this.closeBlock }>With a simple button</button>
   </div>
                 </div>
               </div>
