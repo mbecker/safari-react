@@ -268,15 +268,15 @@ export const Maps2 = React.createClass({
 
         // console.log("Generated key from push: " + newPostRef.key());
 
-        map.on('click', function(e) {
-            // Add new position to database
-            var newGeoPosition = [e.latlng.lat, e.latlng.lng];
-            geoFire.push(newGeoPosition).then(function(location) {
-                //alert("GeoPosition added: " + newGeoPosition);
-                //console.log(location);
+        // map.on('click', function(e) {
+        //     // Add new position to database
+        //     var newGeoPosition = [e.latlng.lat, e.latlng.lng];
+        //     geoFire.push(newGeoPosition).then(function(location) {
+        //         //alert("GeoPosition added: " + newGeoPosition);
+        //         //console.log(location);
 
-            });
-        });
+        //     });
+        // });
 
 
 
@@ -421,9 +421,9 @@ export const Maps2 = React.createClass({
                 </button>
                 <div className="container docs-content block block-inverse text-center" id="maplayer" style={ mapHeight }>
                  <div className="block-foreground" ref="block">
-    <h1 className="block-title">An embed block</h1>
+    <h1 className="block-title">Login or Register</h1>
     <h4 className="text-muted">Use block-background to integrate interactive backgrounds.</h4>
-    <button className="btn btn-default btn-outline m-t" onClick={ this.closeBlock }>With a simple button</button>
+    <button className="btn btn-default btn-outline m-t" onClick={ this.closeBlock }>Login / Register</button>
   </div>
                 </div>
               </div>

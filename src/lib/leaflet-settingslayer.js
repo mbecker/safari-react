@@ -119,23 +119,24 @@ export class SettingsLayer {
                     L.DomEvent.stopPropagation(e);
                     L.DomEvent.preventDefault(e);
                     if (!input.checked) {
-                        // for (let i in this._layersActives) {
-                        //     // Remove active layers from map and remove it from _layersActive
-                        //     this._layersActives[i].active = false;
-                        //     this.map.removeLayer(this._layersActives[i].layer);
-                        //     this._layersActives[i].input.checked = false;
-                        //     this._layersActives.splice(this._layersActives.indexOf(this._layersActives[i]), 1);
-                        // }
+                        for (let i in this._layersActives) {
+                            // Remove active layers from map and remove it from _layersActive
+                            this._layersActives[i].active = false;
+                            this.map.removeLayer(this._layersActives[i].layer);
+                            this._layersActives[i].input.checked = false;
+                            this._layersActives.splice(this._layersActives.indexOf(this._layersActives[i]), 1);
+                        }
                         this.map.addLayer(layer.layer);
                         // layer.layer.bringToFront();
                         input.checked = true;
                         
                         this._layersActives.push(layer);
-                    } else {
-                        this.map.removeLayer(layer.layer);
-                        input.checked = false;
-                        this._layersActives.splice(this._layersActives.indexOf(layer, 1));
-                    }
+                    } 
+                    // else {
+                    //     this.map.removeLayer(layer.layer);
+                    //     input.checked = false;
+                    //     this._layersActives.splice(this._layersActives.indexOf(layer, 1));
+                    // }
 
 
 
