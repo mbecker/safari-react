@@ -37,7 +37,7 @@ const route = routes(store);
 
 render(
     <Provider store={ store }>
-      <Router history={ history } routes={ route } />
+      <Router history={ history } routes={ route } onUpdate={() => window.scrollTo(0, 0)} />
     </Provider>,
-    document.getElementById('app')
+    document.getElementById('reactapp')
 )

@@ -3,7 +3,7 @@ var webpack = require('webpack');
 module.exports = {
     // Makes sure errors in console map to the correct file
     // and line number
-    devtool: "eval",
+    devtool: 'source-map',
     entry: [
         // The script refreshing the browser on none hot updates
         'webpack-dev-server/client?http://localhost:8080',
@@ -11,18 +11,31 @@ module.exports = {
         'webpack/hot/only-dev-server',
         // Our application
         './src/index.jsx',
-        './css/theguide.scss'
+        './less/toolkit-startup.less'
     ],
     module: {
-        loaders: [{
-            test: /.jsx?$/,
-            loader: 'babel-loader',
-            exclude: /(node_modules|bower_components)/
-        }, {
-            test: /\.scss$/,
-            loader: "style!css!sass",
-            exclude: /(node_modules|bower_components)/
-        }]
+        loaders: [
+        {
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: "url-loader?limit=10000&minetype=application/font-woff",
+                exclude: /(node_modules|bower_components)/
+            },
+            {
+                test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: "file-loader",
+                exclude: /(node_modules|bower_components)/
+            },
+            {
+                test: /.jsx?$/,
+                loader: 'babel-loader',
+                exclude: /(node_modules|bower_components)/
+            },
+            {
+                test: /\.less$/,
+                loader: "style-loader!css-loader?sourceMap!less-loader?sourceMap",
+                exclude: /(node_modules|bower_components)/
+            }
+        ]
     },
     resolve: {
         extensions: ['', '.js', '.jsx']

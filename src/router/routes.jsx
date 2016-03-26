@@ -33,7 +33,7 @@ export default (store) => {
 
     return (
     {
-        component: AppPage,
+        component: Maps,
         childRoutes: [
             {
                 onEnter: loggedInRedirectTo,

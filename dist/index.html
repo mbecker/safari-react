@@ -4,34 +4,74 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <title>safari.digital</title>
-    <!-- Styles -->
-    <link href="app.min.css" rel="stylesheet">
-    <link href='/mapbox.css' rel='stylesheet' />
-    <!-- Fonts -->
+    <meta name="author" content="">
+    <title>
+        StartUp &middot;
+    </title>
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,400italic|Work+Sans:300,400,500,600' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500,600,800%7COpen+Sans:300,400,500,600,700,800%7CMontserrat:400,700' rel='stylesheet' type='text/css'>
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="icon" href="img/favicon.ico">
     <!-- Firebase -->
     <script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+    <!-- ReactFire -->
+    <script src="https://cdn.firebase.com/libs/reactfire/0.6.0/reactfire.min.js"></script>
     <!-- GeoFire -->
     <!-- <script src="https://cdn.firebase.com/libs/geofire/4.0.0/geofire.min.js"></script> -->
     <script src="geofire.js"></script>
     <!-- MapBox -->
     <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
-    <!-- moment.js -->
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/locale/de.js' />
+    <style>
+    /* note: this is a hack for ios iframe for bootstrap themes shopify page */
+    /* this chunk of css is not part of the toolkit :) */
+    /* …curses ios, etc… */
+    
+    @media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
+        body {
+            width: 1px;
+            min-width: 100%;
+            *width: 100%;
+        }
+        #stage {
+            height: 1px;
+            overflow: auto;
+            min-height: 100vh;
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+    </style>
 </head>
 
-<body class="sticky-nav transparent-nav" id="body">
-    <div id="app"></div>
-    <!-- END Site footer -->
-    <script src="/bundle.js"></script>
+<body>
+    <div class="stage-shelf stage-shelf-right hidden" id="sidebar">
+        <ul class="nav nav-bordered nav-stacked">
+            <li class="nav-header">Examples</li>
+            <li class="active">
+                <a href="index.html">Startup</a>
+            </li>
+            <li>
+                <a href="minimal/index.html">Minimal</a>
+            </li>
+            <li>
+                <a href="bold/index.html">Bold</a>
+            </li>
+            <li class="nav-divider"></li>
+            <li class="nav-header">Docs</li>
+            <li>
+                <a href="docs/index.html">Toolkit</a>
+            </li>
+            <li>
+                <a href="http://getbootstrap.com">Bootstrap</a>
+            </li>
+        </ul>
+    </div>
+    <div class="stage" id="reactapp">
+        
+    </div>
+    
+    <script src="bundle.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,222 @@
+//  Colors
+// Black: #222B30
+// blue: #52a1d8
+// grey: #f2f2f2;
+
+/* Mixin */
+
+.transition (@prop: all, @time: 1s, @ease: linear) {
+    -webkit-transition: @prop @time @ease;
+    -moz-transition: @prop @time @ease;
+    -o-transition: @prop @time @ease;
+    -ms-transition: @prop @time @ease;
+    transition: @prop @time @ease;
+}
+
+
+/* Nav */
+
+.navbar-toggle {
+    position: fixed;
+    top: 10px;
+    z-index: 1111;
+    right: 0px;
+    margin-right: 15px;
+    background: #fff;
+    border-color: @navbar-transparent-border;
+    border-color: @navbar-transparent-toggle-border-color;
+    opacity: 1;
+    padding: 12px;
+    cursor: pointer;
+    &:hover,
+    &:focus {
+        background: #fff;
+        opacity: 1;
+        .icon-bar {
+            background-color: rgb(40, 102, 159);
+        }
+    }
+    .icon-bar {
+        background-color: #222B30;
+        margin: 0px!important;
+        display: block!important;
+        width: 16px!important;
+        height: 2px!important;
+        border-radius: 1px!important;
+    }
+    .icon-bar + .icon-bar {
+        margin-top: 3px!important;
+    }
+}
+
+.navbar-brand {
+    position: fixed;
+    top: 10px;
+    z-index: 1;
+}
+
+.app-header {
+    padding: 0px!important;
+    height: 100%!important;
+}
+
+.navbar-container {
+    width: 100%!important;
+}
+
+.map-block {
+    display: block;
+    padding: 0px!important;
+}
+
+.map-container {
+    width: 100%!important;
+    padding: 0px!important;
+    margin: 0px!important;
+}
+
+.checkbox {
+    margin-left: 25px!important;
+}
+
+/*
+ * Row and Coulms
+ */
+
+.map-row {
+    padding: 0px!important;
+    padding-right: 250px!important;
+    margin: 0px!important;
+    @media (max-width: @screen-sm-min) {
+        padding-right: 0px!important;
+    }
+    .transition(all, 0.2s, ease);
+    &.sidebar-visible {
+        padding-right: 250px!important;
+    }
+}
+
+.map-column {
+    padding: 0px!important;
+    margin: 0px!important;
+}
+
+
+/*
+ * Sidebar
+ */
+
+.col-fixed-250 {
+    // z-index must be '1031' beacuse fixed navbar is '1030' (see @zindex-navbar-fixed)
+    z-index: 1031;
+    padding-top: 32px!important;
+    width: 250px;
+    position: fixed;
+    height: 100%;
+    top: 0px;
+    right: 0px;
+    .transition(all, 0.2s, ease);
+    &.sidebar-visible {
+        width: 250px!important;
+    }
+}
+
+.stage-shelf {
+    overflow: scroll;
+    background: #222B30;
+    color: #f2f2f2;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    .nav-bordered.nav-stacked > li > a {
+        color: #f2f2f2;
+        &:hover {
+            color: #52a1d8;
+        }
+        &:focus {
+            color: #f2f2f2;
+            border-left: 4px solid #222B30;
+        }
+    }
+    .nav-bordered > li.active > a,
+    .nav-bordered > li.active > a:hover,
+    .nav-bordered > li.active > a:focus {
+        font-weight: 400;
+        font-size: 13px;
+        border-left-color: #52a1d8;
+        color: #52a1d8;
+    }
+}
+
+.col-offset-250 {
+    @media (max-width: @screen-sm-min) {
+        padding-right: 0px!important;
+    }
+    @media (min-width: @screen-sm-min) {
+        padding-right: 250px!important;
+    }
+    height:100%;
+    position: fixed;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    
+}
+
+.rtl {
+    direction: rtl;
+}
+
+.rtl * {
+    direction: ltr;
+}
+
+
+/* Maps.jsx */
+
+.map-nav-container {
+    height: auto;
+    min-height: 100%;
+}
+
+.map-nav-list {
+    padding-bottom: 200px;
+}
+
+.map-live {
+    position: relative;
+    margin-top: -200px;
+    /* Negativer Wert der Footer-HÃ¶he */
+    clear: both;
+    .nav-divider {
+        margin-top: 0px!important;
+        margin-bottom: 15px!important;
+    }
+}
+
+.map-live ul {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 150px;
+    padding-bottom: 25px;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+* html .clearfix {
+    height: 1%;
+}
+
+.clearfix {
+    display: block;
+}

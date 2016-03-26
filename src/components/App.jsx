@@ -16,41 +16,13 @@ const AppPage = React.createClass({
     componentWillMount() {
     },
     componentDidMount() {
-
-        window.addEventListener('scroll', this.handleScroll);
-    },
-    handleScroll(e) {
-        let scrollTop = event.srcElement.body.scrollTop;
-        if (scrollTop > 0) {
-            document.body.classList.add('body-scrolled');
-        } else {
-            document.body.classList.remove('body-scrolled');
-        }
     },
     mixins: [PureRenderMixin],
     render() {
 
         return (
-            <div>
-              { /* Wrap whole page */ }
-              <Header headerCoverImage={ this.props.headerCoverImage }>
-                <Nav>
-                  <NavItem to="/" activeClassName="active">Home</NavItem>
-                  <NavItem to="/parks" activeClassName="active">Parks</NavItem>
-                  <NavItem to="/map" activeClassName="active">Mapbox</NavItem>
-                  { this.props.authenticated ? (
-                    <NavItem to="/logout" className="menu-highlighted">Account</NavItem>
-                    ) : (
-                    <NavItem to="/login" className="menu-highlighted">Login / Register</NavItem>
-                    ) }
-                </Nav>
-              </Header>
-              <main id="maincontent">
-                { this.props.children }
-              </main>
-              { this.props.footerVisible ? (
-                <Footer footerBig={ this.props.footerBig } />
-                ) : null }
+            <div class="container map-container">
+                        { this.props.children }
             </div>
         )
     }

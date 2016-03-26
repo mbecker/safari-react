@@ -49,10 +49,16 @@ const ParksPage = React.createClass({
         this.props.setFooterVisible(true);
         this.props.setFooterBig(true);
     },
+    componentDidMount: function() {
+        if (!document.body.classList.contains('transparent-nav')) {
+            document.body.classList.add('transparent-nav');
+        }
+    },
     render() {
         return (
             <div id="parks">
-              Parks
+              <div className="col-md-9">col-md-10</div>
+              <div className="col-md-3">col-md-2</div>
             </div>
         )
     }

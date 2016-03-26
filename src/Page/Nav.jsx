@@ -60,17 +60,14 @@ export class Nav extends React.Component {
     render() {
         return (
             <nav className="site-navigation">
-              <div className="container">
-                <div className="logo">
-                  <Link to="/" className="logo-default"><img src="img/logo.png" alt="logo" /></Link>
-                  <Link to="/" className="logo-transparent"></Link>
-                </div>
-                <a className="navbar-toggle" id="navbartoggle" refs="navbartoggle" onClick={ this.showResponsiveNav.bind(this) }><i className="fa fa-bars" id="navbartoggle"></i></a>
-                <ul className="nav-menu" ref="navigation">
-                  { this.props.children }
-                </ul>
-              </div>
-            </nav>
+                  <div className="container">
+                    
+                    <a className="navbar-toggle" id="navbartoggle" refs="navbartoggle" onClick={ this.showResponsiveNav.bind(this) }><i className="fa fa-bars nav-toggle" id="navbartoggle"></i></a>
+                    <ul className="nav-menu" ref="navigation">
+                      { this.props.children }
+                    </ul>
+                  </div>
+                </nav>
             );
     }
 }

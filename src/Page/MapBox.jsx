@@ -1,28 +1,14 @@
 import React from "react";
-import '../lib/events.js';
+
 import '../lib/leaflet-panel-layers.js';
 
 export class MapBox extends React.Component {
     constructor() {
         super();
-        this.handleResize = this.handleResize.bind(this);
-        this.headerHeight;
-        this.footerHeight;
-
-
-        this.state = {
-            mapHeight: window.innerHeight
-        };
     };
 
     componentDidMount() {
-        window.addEventListener("optimizedResize", this.handleResize);
-        setTimeout(() => {
-            // this.headerHeight = document.getElementById('header2').offsetHeight;
-            this.setState({
-                mapHeight: window.innerHeight - 60
-            });
-        });
+
 
         // Provide your access token
         L.mapbox.accessToken = 'pk.eyJ1IjoibWJlY2tlciIsImEiOiJjaWt2MDZxbDkwMDFzd3ptNXF3djVhYW42In0.9Lavn2fn_0tg-QVrPhwEzA';
@@ -60,8 +46,8 @@ export class MapBox extends React.Component {
         };
 
 
-        // Create a map in the div #map
-        var map = L.mapbox.map('map', '', {
+        // Create a map in the div #maplayer
+        var map = L.mapbox.map('maplayer', '', {
             zoomControl: false
         });
 
@@ -206,74 +192,90 @@ export class MapBox extends React.Component {
             console.log("Error: " + error);
         });
 
-        
+
         // console.log("Generated key from push: " + newPostRef.key());
 
         map.on('click', function(e) {
-            
-            var newGeoPosition = [e.latlng.lat, e.latlng.lng];
-            geoFire.push(newGeoPosition).then(function(location) {
-                alert("GeoPosition added: " + newGeoPosition);
-            });
+            // Add new position to database
+            // var newGeoPosition = [e.latlng.lat, e.latlng.lng];
+            // geoFire.push(newGeoPosition).then(function(location) {
+            //     alert("GeoPosition added: " + newGeoPosition);
+            // });
         });
 
         // Get time
         var offsetRef = new Firebase("https://safaridigital.firebaseio.com/.info/serverTimeOffset");
         offsetRef.on("value", function(snap) {
             console.log("TIME");
-          var offset = snap.val();
-          console.log(snap);
-          console.log(offset);
-          var estimatedServerTimeMs = new Date().getTime() + offset;
-          console.log(estimatedServerTimeMs);
-          var minute = estimatedServerTimeMs - 1000 * 60 * 60 * 24 *7;
-          console.log(minute);
+            var offset = snap.val();
+            console.log(snap);
+            console.log(offset);
+            var estimatedServerTimeMs = new Date().getTime() + offset;
+            console.log(estimatedServerTimeMs);
+            var minute = estimatedServerTimeMs - 1000 * 60 * 60 * 24 * 7;
+            console.log(minute);
 
-        FireBaseRef.orderByChild("timestamp").startAt(minute).on("child_added", function(snapshot) {
-          console.log("Added to map: " + snapshot.val().timestamp);
-          var date = new Date(snapshot.val().timestamp*1000);
-            var timestamp = new Date(snapshot.val().timestamp*1000);
-            // var date = timestamp + 1000 * 60 * 60 * 24 *7;
-            var content = '<h2>A ferry ride!<\/h2>' +
-        '<p>Start at: ' + date + '<br \/>' +
-        'Time:  ' + timestamp + '<\/p>';
+            FireBaseRef.orderByChild("timestamp").startAt(minute).on("child_added", function(snapshot) {
+                console.log("Added to map: " + snapshot.val().timestamp);
+                var date = new Date(snapshot.val().timestamp * 1000);
+                var timestamp = new Date(snapshot.val().timestamp * 1000);
+                // var date = timestamp + 1000 * 60 * 60 * 24 *7;
+                var content = '<h2>A ferry ride!<\/h2>' +
+                    '<p>Start at: ' + date + '<br \/>' +
+                    'Time:  ' + timestamp + '<\/p>';
 
-          animalgroup.addLayer(L.marker(snapshot.val().l).bindPopup(content));
-        
-          console.log(animalgroup)
+                animalgroup.addLayer(L.marker(snapshot.val().l).bindPopup(content));
+
+                console.log(animalgroup)
+            });
+
         });
-
-        });
-
     }
 
     componentWillUnmount() {
-        window.removeEventListener('optimizedResize', this.handleResize);
     }
 
-    handleResize(e) {
-        // this.headerHeight = document.getElementById('header2').offsetHeight;
-        this.setState({
-            mapHeight: window.innerHeight
-        });
-    }
+
 
     render() {
-        const styleA = {
-
-            background: 'red',
-            marginTop: 0,
-            padding: '0px!important',
-            height: this.state.mapHeight,
-            height: 200
-
-        }
         let classMap = {
-            height: this.state.mapHeight,
+            height: '100%',
             textDecoration: 'none'
         }
         return (
-            <div ref="map" id="map" style={ classMap }>
+            <div>
+              <div className="visible-sm visible-md visible-lg col-fixed-250 map-column stage-shelf stage-shelf-right hidden">
+                <ul className="nav nav-bordered nav-stacked">
+                  <li className="nav-header">Examples</li>
+                  <li className="active">
+                    <a href="index.html">Startup</a>
+                  </li>
+                  <li>
+                    <a href="minimal/index.html">Minimal</a>
+                  </li>
+                  <li>
+                    <a href="bold/index.html">Bold</a>
+                  </li>
+                  <li className="nav-divider"></li>
+                  <li className="nav-header">Docs</li>
+                  <li>
+                    <a href="docs/index.html">Toolkit</a>
+                  </li>
+                  <li>
+                    <a href="http://getbootstrap.com">Bootstrap</a>
+                  </li>
+                  <li className="nav-divider"></li>
+                  <li className="nav-header">Live @Addo</li>
+                  <li>
+                    <a href="docs/index.html">Toolkit</a>
+                  </li>
+                  <li>
+                    <a href="http://getbootstrap.com">Bootstrap</a>
+                  </li>
+                </ul>
+              </div>
+              <div className="col-xs-12 col-offset-250 map-column" ref="map" id="maplayer" style={ classMap }>
+              </div>
             </div>
             );
     }
