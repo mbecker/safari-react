@@ -49,9 +49,6 @@ export class SettingsLayer {
             }
         }
 
-        // Add layers 'active: true' to map
-        // this.onAdd();
-        this.addItems();
     }
 
     _addGroup(name, isOverlays, layers) {
@@ -100,7 +97,6 @@ export class SettingsLayer {
                 listItemLabel.onclick = e => {
                     L.DomEvent.stopPropagation(e);
                     L.DomEvent.preventDefault(e);
-                    console.log("is Input checked: " + input.checked);
 
                     // If isOverlay; jsut remove this layer from map (other overlays coul stay on map)
                     if (input.checked) {
@@ -144,25 +140,6 @@ export class SettingsLayer {
             // L.DomEvent.on(link, 'click', this._onLinkClick, layers[n]);
 
         }
-    }
-
-    _onLinkClick(e) {
-        console.log(this);
-        // if(this._layer.active) {
-        //     this.map.removeLayer(this._layer.layer);
-        //     L.DomUtil.removeClass(this._listItem, 'active');
-        //     this._layer.active = false;
-        // } else {
-        //     this.map.addLayer(this._layer.layer);
-        //     L.DomUtil.addClass(this._listItem, 'active');
-        //     this._layer.active = true;
-        // }
-
-    }
-
-    addItems() {
-        // ToDO: Check if this.container == nulll
-
     }
 
     _instanceLayer(layerDef) {

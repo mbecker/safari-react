@@ -335,7 +335,7 @@ export const Maps = React.createClass({
             height: this.state.mapHeight
         }
         return (
-            <div className="block block-inverse block-fill-height app-header" style={ {    backgroundImage: 'url(assets/img/startup-1.jpg)'} } id="reactapp">
+            <div className="block block-inverse block-fill-height app-header">
               <button onClick={ this.handleSidebar } type="button" className="navbar-toggle" data-target="#stage" data-toggle="stage" data-distance="-250">
                 <span className="sr-only">Toggle navigation</span>
                 <span className="icon-bar"></span>
@@ -347,7 +347,7 @@ export const Maps = React.createClass({
                                                                                                         safari
                                                                                                         </strong>
               </a>
-              <div className="block-xs-middle p-b-lg map-block" id="reactapp">
+              <div className="block-xs-middle p-b-lg map-block">
                 <div className="row rtl map-row" ref="maprow">
                   <div ref="sidebar" className="visible-width-sm visible-width-md visible-width-lg col-fixed-250 map-column stage-shelf stage-shelf-right" id="map-sidebar">
                     <div className="map-nav-container">
