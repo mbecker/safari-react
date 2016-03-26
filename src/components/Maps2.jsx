@@ -348,80 +348,67 @@ export const Maps2 = React.createClass({
         }
         return (
             <div>
-            <div className="stage-shelf hidden" id="sidebar" ref="sidebar">
-  <ul className="nav nav-bordered nav-stacked">
-    <li className="nav-header">Examples</li>
-    <li>
-      <a href="../index.html">Startup</a>
-    </li>
-    <li>
-      <a href="../minimal/index.html">Minimal</a>
-    </li>
-    <li>
-      <a href="../bold/index.html">Bold</a>
-    </li>
-    <li className="nav-divider"></li>
-    <li className="nav-header">Docs</li>
-    <li className="active">
-      <a href="../docs/index.html">Toolkit</a>
-    </li>
-    <li>
-      <a href="http://getbootstrap.com">Bootstrap</a>
-    </li>
-  </ul>
-</div>
-
-<div className="stage-shelf stage-shelf-right hidden" id="rightsidebar" ref="rightsidebar" >
-  <ul className="nav nav-bordered nav-stacked">
-    <li className="nav-header">Examples</li>
-    <li>
-      <a href="../index.html">Startup</a>
-    </li>
-    <li>
-      <a href="../minimal/index.html">Minimal</a>
-    </li>
-    <li>
-      <a href="../bold/index.html">Bold</a>
-    </li>
-    <li className="nav-divider"></li>
-    <li className="nav-header">Docs</li>
-    <li className="active">
-      <a href="../docs/index.html">Toolkit</a>
-    </li>
-    <li>
-      <a href="http://getbootstrap.com">Bootstrap</a>
-    </li>
-  </ul>
-</div>
-
-
-
-
-<div className="stage" id="app-stage" ref="stage">
-
-    <button className="btn btn-link stage-toggle" data-target="#app-stage" data-toggle="stage" onClick={ this.handleSidebar }>
-      <span className="icon icon-menu stage-toggle-icon"></span>
-      Menu
-    </button>
-
-    <button className="btn btn-link stage-toggle stage-toggle-right" data-target="#app-stage" data-toggle="stage" onClick={ this.handleRightSidebar }>
-      <span className="icon icon-menu stage-toggle-icon"></span>
-      Map
-    </button>
-    
-      
-      <div className="container docs-content" id="maplayer" style={ mapHeight }>
+              <div className="stage-shelf hidden" id="sidebar" ref="sidebar">
+                <ul className="nav nav-bordered nav-stacked">
+                  <li className="nav-header">Examples</li>
+                  <li>
+                    <a href="../index.html">Startup</a>
+                  </li>
+                  <li>
+                    <a href="../minimal/index.html">Minimal</a>
+                  </li>
+                  <li>
+                    <a href="../bold/index.html">Bold</a>
+                  </li>
+                  <li className="nav-divider"></li>
+                  <li className="nav-header">Docs</li>
+                  <li className="active">
+                    <a href="../docs/index.html">Toolkit</a>
+                  </li>
+                  <li>
+                    <a href="http://getbootstrap.com">Bootstrap</a>
+                  </li>
+                </ul>
+              </div>
+              <div className="stage-shelf stage-shelf-right hidden" id="rightsidebar" ref="rightsidebar">
+                <div className="map-nav-container">
+                      <ul className="map-nav-list nav nav-bordered nav-stacked clearfix" id="mapsettings">
+                        <li className="nav-header">Settings</li>
+                        <li className={ this.state.selectedItem == 1 ? "active" : null }>
+                          <a href="#" data-id="1" onClick={ this.toggleSettingsPanel }>Maps</a>
+                        </li>
+                        <li className={ this.state.selectedItem == 2 ? "active" : null }>
+                          <a href="#" data-id="2" onClick={ this.toggleSettingsPanel }>Animals</a>
+                        </li>
+                        <ul ref="mapsettings" className={ this.state.selectedItem == 1 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
+                        </ul>
+                        <ul ref="animalsettings" className={ this.state.selectedItem == 2 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
+                        </ul>
+                      </ul>
+                    </div>
+                    <ul id="live" ref="live" className="map-live nav nav-bordered nav-stacked">
+                      <li className="nav-divider"></li>
+                      <li className="nav-header">Live @Addo</li>
+                      <ul className="nav nav-bordered nav-stacked">
+                        { this.state.geopositions.map((result) => {
+                              return <ListItemWrapper key={ result.g } data={ result } />;
+                          }) }
+                      </ul>
+                    </ul>
+              </div>
+              <div className="stage" id="app-stage" ref="stage">
+                <button className="btn btn-link stage-toggle" data-target="#app-stage" data-toggle="stage" onClick={ this.handleSidebar }>
+                  <span className="icon icon-menu stage-toggle-icon"></span> Menu
+                </button>
+                <button className="btn btn-link stage-toggle stage-toggle-right" data-target="#app-stage" data-toggle="stage" onClick={ this.handleRightSidebar }>
+                  <span className="icon icon-menu stage-toggle-icon"></span> Map
+                </button>
+                <div className="container docs-content" id="maplayer" style={ mapHeight }>
+                </div>
+              </div>
+            </div>
 
 
-
-        
-      </div>
-    
-
-  </div>
-</div>
-
-            
 
         )
     }
