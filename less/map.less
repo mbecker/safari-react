@@ -134,9 +134,6 @@
     overflow: scroll;
     background: #222B30;
     color: #f2f2f2;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
-    font-size: 13px;
     .nav-bordered.nav-stacked > li > a {
         color: #f2f2f2;
         &:hover {
@@ -150,8 +147,6 @@
     .nav-bordered > li.active > a,
     .nav-bordered > li.active > a:hover,
     .nav-bordered > li.active > a:focus {
-        font-weight: 400;
-        font-size: 13px;
         border-left-color: #52a1d8;
         color: #52a1d8;
     }
@@ -247,4 +242,34 @@
 .block-foreground {
     background: #222B30!important;
     padding: 60px!important;
+}
+
+// Icons
+
+.stage-toggle-left-bottom {
+        bottom: 120px;
+    top: auto;
+}
+
+.icon-menu-giraffe:before {
+    content: "";
+    width: 20px;
+    height: 30px;
+}
+.icon-menu-giraffe:before {
+    position: relative;
+    top: 2px;
+    display: inline-block;
+    background-image: url('./icons/giraffe.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.map-pointer-font {
+
+}
+.stage-toggle-active {
+    color: @stage-toggle-hover-color;
+    text-decoration: none;
+    background-color: @stage-toggle-hover-bg;
 }

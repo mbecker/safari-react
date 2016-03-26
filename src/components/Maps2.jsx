@@ -34,7 +34,9 @@ export const Maps2 = React.createClass({
             tabs: [],
             tabContent: [],
             geopositions: [],
-            selectedItem: 0
+            selectedItem: 0,
+            crosshair: '',
+            markertext: 'Spot an animal'
         };
     },
     componentWillMount: function() {
@@ -296,7 +298,7 @@ export const Maps2 = React.createClass({
                 var date = new Date(snapshot.val().timestamp / 100);
                 var timestamp = snapshot.val().timestamp;
                 // var date = timestamp + 1000 * 60 * 60 * 24 *7;
-                var content = `<p>Timestamp ${timestamp}</p>
+                var content = `<h1>Timestamp ${timestamp}</h1>
                 <p>Date: ${new Date(timestamp)}</p>`;
 
                 animalgroup.addLayer(L.marker(snapshot.val().l).bindPopup(content));
@@ -351,16 +353,40 @@ export const Maps2 = React.createClass({
         });
     },
     closeBlock(e) {
-// click on this link will cause ONLY child alert to fire
+        // click on this link will cause ONLY child alert to fire
         e.stopPropagation();
         // stop default action of link
         e.preventDefault();
 
-        this.refs.block.style.display="none";
+        this.refs.block.style.display = "none";
+    },
+    handleMarker(e) {
+        // click on this link will cause ONLY child alert to fire
+        e.stopPropagation();
+        // stop default action of link
+        e.preventDefault();
+        toggle(this.refs.marker, 'stage-toggle-active');
+        this.setState({
+            crosshair: 'crosshair',
+            markertext: 'Click on map'
+        });
+        map.on('click', this.handleMapClick);
+    },
+    handleMapClick(e) {
+        var newGeoPosition = [e.latlng.lat, e.latlng.lng];
+        geoFire.push(newGeoPosition).then(function(location) {});
+        map.off('click', this.handleMapClick);
+
+        toggle(this.refs.marker, 'stage-toggle-active');
+        this.setState({
+            crosshair: '',
+            markertext: 'Spot an animal'
+        });
     },
     render() {
         let mapHeight = {
-            height: this.state.mapHeight
+            height: this.state.mapHeight,
+            cursor: this.state.crosshair
         }
         return (
             <div>
@@ -388,29 +414,29 @@ export const Maps2 = React.createClass({
               </div>
               <div className="stage-shelf stage-shelf-right hidden" id="rightsidebar" ref="rightsidebar">
                 <div className="map-nav-container">
-                      <ul className="map-nav-list nav nav-bordered nav-stacked clearfix" id="mapsettings">
-                        <li className="nav-header">Settings</li>
-                        <li className={ this.state.selectedItem == 1 ? "active" : null }>
-                          <a href="#" data-id="1" onClick={ this.toggleSettingsPanel }>Maps</a>
-                        </li>
-                        <li className={ this.state.selectedItem == 2 ? "active" : null }>
-                          <a href="#" data-id="2" onClick={ this.toggleSettingsPanel }>Animals</a>
-                        </li>
-                        <ul ref="mapsettings" className={ this.state.selectedItem == 1 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
-                        </ul>
-                        <ul ref="animalsettings" className={ this.state.selectedItem == 2 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
-                        </ul>
-                      </ul>
-                    </div>
-                    <ul id="live" ref="live" className="map-live nav nav-bordered nav-stacked">
-                      <li className="nav-divider"></li>
-                      <li className="nav-header">Live @Addo</li>
-                      <ul className="nav nav-bordered nav-stacked">
-                        { this.state.geopositions.map((result) => {
-                              return <ListItemWrapper key={ result.g } data={ result } />;
-                          }) }
-                      </ul>
+                  <ul className="map-nav-list nav nav-bordered nav-stacked clearfix" id="mapsettings">
+                    <li className="nav-header">Settings</li>
+                    <li className={ this.state.selectedItem == 1 ? "active" : null }>
+                      <a href="#" data-id="1" onClick={ this.toggleSettingsPanel }>Maps</a>
+                    </li>
+                    <li className={ this.state.selectedItem == 2 ? "active" : null }>
+                      <a href="#" data-id="2" onClick={ this.toggleSettingsPanel }>Animals</a>
+                    </li>
+                    <ul ref="mapsettings" className={ this.state.selectedItem == 1 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
                     </ul>
+                    <ul ref="animalsettings" className={ this.state.selectedItem == 2 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
+                    </ul>
+                  </ul>
+                </div>
+                <ul id="live" ref="live" className="map-live nav nav-bordered nav-stacked">
+                  <li className="nav-divider"></li>
+                  <li className="nav-header">Live @Addo</li>
+                  <ul className="nav nav-bordered nav-stacked">
+                    { this.state.geopositions.map((result) => {
+                          return <ListItemWrapper key={ result.g } data={ result } />;
+                      }) }
+                  </ul>
+                </ul>
               </div>
               <div className="stage" id="app-stage" ref="stage">
                 <button className="btn btn-link stage-toggle" data-target="#app-stage" data-toggle="stage" onClick={ this.handleSidebar }>
@@ -419,12 +445,15 @@ export const Maps2 = React.createClass({
                 <button className="btn btn-link stage-toggle stage-toggle-right" data-target="#app-stage" data-toggle="stage" onClick={ this.handleRightSidebar }>
                   <span className="icon icon-menu stage-toggle-icon"></span> Map
                 </button>
+                <button ref="marker" className="btn btn-link stage-toggle stage-toggle-left-bottom map-pointer-font" data-target="#app-stage" data-toggle="stage" onClick={ this.handleMarker }>
+                  <span className="icon icon-location-pin stage-toggle-icon"></span> { this.state.markertext }
+                </button>
                 <div className="container docs-content block block-inverse text-center" id="maplayer" style={ mapHeight }>
-                 <div className="block-foreground" ref="block">
-    <h1 className="block-title">Login or Register</h1>
-    <h4 className="text-muted">Use block-background to integrate interactive backgrounds.</h4>
-    <button className="btn btn-default btn-outline m-t" onClick={ this.closeBlock }>Login / Register</button>
-  </div>
+                  <div className="block-foreground" ref="block">
+                    <h1 className="block-title">Login or Register</h1>
+                    <h4 className="text-muted">Use block-background to integrate interactive backgrounds.</h4>
+                    <button className="btn btn-default btn-outline m-t" onClick={ this.closeBlock }>Login / Register</button>
+                  </div>
                 </div>
               </div>
             </div>
