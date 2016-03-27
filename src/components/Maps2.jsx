@@ -34,13 +34,11 @@ export const Maps2 = React.createClass({
             tabs: [],
             tabContent: [],
             geopositions: [],
-            selectedItem: 0,
-            crosshair: '',
+            selectedItem: 1,
             markertext: 'Spot an animal'
         };
     },
     componentWillMount: function() {
-
         const guessedServerTimeMs = new Date().getTime() - hourInMs;
         FireBaseRef.orderByChild("timestamp").startAt(guessedServerTimeMs).on("child_added", (snapshot) => {
             var date = new Date(snapshot.val().timestamp / 1000);
@@ -250,7 +248,7 @@ export const Maps2 = React.createClass({
             }).addTo(map);
 
 
-
+        // Center map
         geoFire.get("center").then(function(location) {
             if (location === null) {
                 console.log("Provided key is not in GeoFire");
@@ -267,65 +265,45 @@ export const Maps2 = React.createClass({
             console.log("Error: " + error);
         });
 
-
-        // console.log("Generated key from push: " + newPostRef.key());
-
-        // map.on('click', function(e) {
-        //     // Add new position to database
-        //     var newGeoPosition = [e.latlng.lat, e.latlng.lng];
-        //     geoFire.push(newGeoPosition).then(function(location) {
-        //         //alert("GeoPosition added: " + newGeoPosition);
-        //         //console.log(location);
-
-        //     });
-        // });
-
-
-
-        // Get time
+        // Set marker on map
+        // endAt: Begin wit time x
+        // startAt: End with time x+time
         var offsetRef = new Firebase("https://safaridigital.firebaseio.com/.info/serverTimeOffset");
         offsetRef.on("value", function(snap) {
-            // console.log("TIME");
             var offset = snap.val();
-            // console.log(snap);
-            // console.log(offset);
             var estimatedServerTimeMs = new Date().getTime() + offset;
-            console.log(estimatedServerTimeMs);
-            var minute = estimatedServerTimeMs - 1000 * 60 * 60 * 24 * 7;
-            // console.log(minute);
-            FireBaseRef.orderByChild("timestamp").startAt(minute).on("child_added", function(snapshot) {
-                //console.log("Added to map: " + snapshot.val().timestamp);
+            FireBaseRef.orderByChild("timestamp").startAt(estimatedServerTimeMs - (24 * hourInMs)).endAt(estimatedServerTimeMs - (1 * minInMs)).on("child_added", function(snapshot) {
                 var date = new Date(snapshot.val().timestamp / 100);
                 var timestamp = snapshot.val().timestamp;
-                // var date = timestamp + 1000 * 60 * 60 * 24 *7;
                 var content = `<h1>Timestamp ${timestamp}</h1>
                 <p>Date: ${new Date(timestamp)}</p>`;
-
                 animalgroup.addLayer(L.marker(snapshot.val().l).bindPopup(content));
-
-            // console.log(animalgroup)
             });
 
 
-
+            FireBaseRef.orderByChild("timestamp").startAt(estimatedServerTimeMs).on("child_added", function(snapshot) {
+                var date = new Date(snapshot.val().timestamp / 100);
+                var timestamp = snapshot.val().timestamp;
+                var content = `<h2>A ferry ride!<\/h2>
+                <p>Date: ${new Date(timestamp)}</p>
+                <p>Timestamp ${timestamp}</p>`;
+                animalgroup.addLayer(L.marker(snapshot.val().l).bindPopup(content));
+            });
         });
+
+        
     },
     handleResize(e) {
-        // this.headerHeight = document.getElementById('header2').offsetHeight;
         this.setState({
             mapHeight: window.innerHeight
         });
-        if (window.innerWidth > 768) {
-            L.DomUtil.removeClass(this.refs.sidebar, 'sidebar-visible');
-            L.DomUtil.removeClass(this.refs.maprow, 'sidebar-visible');
-        }
     },
     handleSidebar(e) {
         // click on this link will cause ONLY child alert to fire
         e.stopPropagation();
         // stop default action of link
         e.preventDefault();
-
+        toggle(this.refs.btnleft, 'stage-toggle-active');
         this.refs.sidebar.scrollTop = 0;
         toggle(this.refs.sidebar, 'hidden');
         toggle(this.refs.stage, 'stage-open');
@@ -336,7 +314,7 @@ export const Maps2 = React.createClass({
         e.stopPropagation();
         // stop default action of link
         e.preventDefault();
-
+        toggle(this.refs.btnright, 'stage-toggle-active');
         this.refs.rightsidebar.scrollTop = 0;
         toggle(this.refs.rightsidebar, 'hidden');
         toggle(this.refs.stage, 'stage-open');
@@ -365,18 +343,16 @@ export const Maps2 = React.createClass({
         e.stopPropagation();
         // stop default action of link
         e.preventDefault();
-        if(L.DomUtil.hasClass(this.refs.marker, 'stage-toggle-active')) {
-            L.DomUtil.removeClass(this.refs.marker, 'stage-toggle-active');
+        if(L.DomUtil.hasClass(this.refs.marker, 'map-pointer-active')) {
+            L.DomUtil.removeClass(this.refs.marker, 'map-pointer-active');
             this.setState({
-            crosshair: '',
             markertext: 'Spot an animal'
         });
             
             map.off('click', this.handleMapClick);
         } else {
-            L.DomUtil.addClass(this.refs.marker, 'stage-toggle-active');
+            L.DomUtil.addClass(this.refs.marker, 'map-pointer-active');
             this.setState({
-                crosshair: 'crosshair',
                 markertext: 'Click on map'
             });
             map.on('click', this.handleMapClick);
@@ -390,17 +366,17 @@ export const Maps2 = React.createClass({
         geoFire.push(newGeoPosition).then(function(location) {});
         map.off('click', this.handleMapClick);
 
-        toggle(this.refs.marker, 'stage-toggle-active');
+        L.DomUtil.removeClass(this.refs.marker, 'map-pointer-active');
         this.setState({
-            crosshair: '',
             markertext: 'Spot an animal'
         });
     },
     render() {
         let mapHeight = {
             height: this.state.mapHeight,
-            cursor: this.state.crosshair
-        }
+            cursor: this.state.markertext == "Click on map" ? "crosshair" : ""
+        };
+
         return (
             <div>
               <div className="stage-shelf hidden" id="sidebar" ref="sidebar">
@@ -453,10 +429,10 @@ export const Maps2 = React.createClass({
                 </ul>
               </div>
               <div className="stage" id="app-stage" ref="stage">
-                <button className="btn btn-link stage-toggle" data-target="#app-stage" data-toggle="stage" onClick={ this.handleSidebar }>
+                <button ref="btnleft" className="btn btn-link stage-toggle" data-target="#app-stage" data-toggle="stage" onClick={ this.handleSidebar }>
                   <span className="icon icon-menu stage-toggle-icon"></span> Menu
                 </button>
-                <button className="btn btn-link stage-toggle stage-toggle-right" data-target="#app-stage" data-toggle="stage" onClick={ this.handleRightSidebar }>
+                <button ref="btnright" className="btn btn-link stage-toggle stage-toggle-right" data-target="#app-stage" data-toggle="stage" onClick={ this.handleRightSidebar }>
                   <span className="icon icon-menu stage-toggle-icon"></span> Map
                 </button>
                 <button ref="marker" className="btn btn-link stage-toggle stage-toggle-left-bottom map-pointer" data-target="#app-stage" data-toggle="stage" onClick={ this.handleMarker }>
@@ -491,7 +467,6 @@ var ListItemWrapper = React.createClass({
 
     setMapCenter(e) {
         e.preventDefault();
-        console.log(this.props.data);
         map.panTo(new L.LatLng(this.props.data.l[0], this.props.data.l[1]));
     },
     render: function() {

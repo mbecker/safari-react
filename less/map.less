@@ -296,25 +296,31 @@
     padding: 60px!important;
 }
 
-// Icons
+// Buttons
+.stage-toggle {
+    &:hover {
+        color: @stage-toggle-hover-color;
+        text-decoration: none;
+        background-color: @stage-toggle-hover-bg;
+    }
+    &:focus {
+        color: @stage-toggle-color;
+        background-color: @stage-toggle-bg;
+        text-decoration: none;
+        outline: 0px;
+        outline-offset: 0px;
+    }
+}
+
+.stage-toggle-active {
+    color: @stage-toggle-hover-color!important;
+    text-decoration: none;
+    background-color: @stage-toggle-hover-bg!important;
+}
+
 .stage-toggle-left-bottom {
     bottom: 120px;
     top: auto;
-}
-
-.icon-menu-giraffe:before {
-    content: "";
-    width: 20px;
-    height: 30px;
-}
-
-.icon-menu-giraffe:before {
-    position: relative;
-    top: 2px;
-    display: inline-block;
-    background-image: url('./icons/giraffe.svg');
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 .map-pointer {
@@ -330,16 +336,13 @@
             background-color: #f2f2f2!important;
         }
         color: #fff!important;
-        background-color: rgba(0,
-        0,
-        0,
-        0.1)!important;
+        background-color: rgba(0, 0, 0, 0.1)!important;
         outline: 0px!important;
         outline-offset: 0px!important;
     }
 }
 
-.stage-toggle-active {
+.map-pointer-active {
     color: #222B30;
     text-decoration: none;
     background-color: #f2f2f2;
