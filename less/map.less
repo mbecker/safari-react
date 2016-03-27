@@ -144,20 +144,50 @@
             border-left: 4px solid #222B30;
         }
     }
-    .nav-bordered > li > a {
+    .nav-tabs > li > a {
         color: #f2f2f2;
         &:hover {
             color: #52a1d8;
         }
         &:focus {
             color: #f2f2f2;
-            
         }
     }
-    .nav-bordered > li.active > a {
-        &:focus {
-            color: #f2f2f2;
-            
+    // Give the tabs something to sit on
+    .nav-tabs {
+        border-bottom: 1px solid @nav-tabs-border-color;
+        > li {
+            float: left;
+            // Make the list-items overlay the bottom border
+            margin-bottom: -1px;
+            // Actual tabs (as links)
+            > a {
+                font-weight: 500;
+                margin-right: 0px;
+                line-height: @line-height-base;
+                border-radius: 0px;
+                &:hover {
+                    border-color: transparent!important;
+                    background-color: transparent!important;
+                }
+            }
+            // Active state, and its :hover to override normal :hover
+            &.active > a {
+                &,
+                &:hover,
+                &:focus {
+                    color: #52a1d8!important;
+                    background-color: #222B30!important;
+                    border: 1px solid transparent!important;
+                    border-bottom-color: #52a1d8!important;
+                    cursor: default;
+                }
+            }
+        }
+        // pulling this in mainly for less shorthand
+        &.nav-justified {
+            .nav-justified();
+            .nav-tabs-justified();
         }
     }
     .nav-bordered.nav-stacked > li.active > a,
@@ -213,11 +243,12 @@
 
 .map-nav-list {
     margin-left: 34px!important;
+    margin-bottom: 20px!important;
     &> li + li {
         margin-left: 15px!important;
     }
     &>li > a {
-        padding:0px!important;
+        padding: 0px!important;
     }
 }
 
@@ -248,7 +279,7 @@
 }
 
 .clearfix {
-    display: inline-block;
+    display: block;
 }
 
 * html .clearfix {
@@ -294,12 +325,15 @@
     }
     &:focus {
         &:hover {
-        color: #222B30!important;
-        text-decoration: none!important;
-        background-color: #f2f2f2!important;
-    }
+            color: #222B30!important;
+            text-decoration: none!important;
+            background-color: #f2f2f2!important;
+        }
         color: #fff!important;
-        background-color: rgba(0, 0, 0, 0.1)!important;
+        background-color: rgba(0,
+        0,
+        0,
+        0.1)!important;
         outline: 0px!important;
         outline-offset: 0px!important;
     }
