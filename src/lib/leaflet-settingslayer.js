@@ -24,7 +24,7 @@ export class SettingsLayer {
         for (i in baseLayers) {
             if (baseLayers[i].group && baseLayers[i].layers) {
                 // baseLayer is group && has layer;
-                this._addGroup(baseLayers[i].group, false, baseLayers[i].layers);
+                this._addGroup(i, baseLayers[i].group, false, baseLayers[i].layers);
                 for (n in baseLayers[i].layers) {
                     // push layers of baseLayer group to this._layer
                     this._addLayer(baseLayers[i].layers[n], false, baseLayers[i].group);
@@ -38,7 +38,7 @@ export class SettingsLayer {
         for (i in overlays) {
             if (overlays[i].group && overlays[i].layers) {
                 // overlays is group && has layers
-                this._addGroup(overlays[i].group, true, overlays[i].layers);
+                this._addGroup(i, overlays[i].group, true, overlays[i].layers);
                 for (n in overlays[i].layers) {
                     // push layers of overlays group to this._layer
                     this._addLayer(overlays[i].layers[n], true, overlays[i].group);
@@ -51,13 +51,15 @@ export class SettingsLayer {
 
     }
 
-    _addGroup(name, isOverlays, layers) {
+    _addGroup(count, name, isOverlays, layers) {
         let n;
 
         let list = isOverlays ? this.overlaysContainer : this.container;
 
         // let list = L.DomUtil.create('ul', 'nav nav-bordered nav-stacked', this.container);
-        let divider = L.DomUtil.create('li', 'nav-divider', list);
+        if(count > 0) {
+            L.DomUtil.create('li', 'nav-divider', list);
+        }
         let listItem = L.DomUtil.create('li', 'nav-header', list);
         listItem.innerHTML = name;
 

@@ -144,9 +144,25 @@
             border-left: 4px solid #222B30;
         }
     }
-    .nav-bordered > li.active > a,
-    .nav-bordered > li.active > a:hover,
-    .nav-bordered > li.active > a:focus {
+    .nav-bordered > li > a {
+        color: #f2f2f2;
+        &:hover {
+            color: #52a1d8;
+        }
+        &:focus {
+            color: #f2f2f2;
+            
+        }
+    }
+    .nav-bordered > li.active > a {
+        &:focus {
+            color: #f2f2f2;
+            
+        }
+    }
+    .nav-bordered.nav-stacked > li.active > a,
+    .nav-bordered.nav-stacked > li.active > a:hover,
+    .nav-bordered.nav-stacked > li.active > a:focus {
         border-left-color: #52a1d8;
         color: #52a1d8;
     }
@@ -192,10 +208,17 @@
 .map-nav-container {
     height: auto;
     min-height: 100%;
+    padding-bottom: 200px;
 }
 
 .map-nav-list {
-    padding-bottom: 200px;
+    margin-left: 34px!important;
+    &> li + li {
+        margin-left: 15px!important;
+    }
+    &>li > a {
+        padding:0px!important;
+    }
 }
 
 .map-live {
@@ -232,10 +255,6 @@
     height: 1%;
 }
 
-.clearfix {
-    display: block;
-}
-
 // MAP
 .leaflet-popup-pane {
     color: black;
@@ -267,23 +286,33 @@
     background-size: cover;
 }
 
-.map-pointer-font {}
-
-.map-pointer:focus {
-    color: #fff!important;
-    background-color: rgba(0, 0, 0, 0.1)!important;
-    outline: 0px!important;
-    outline-offset: 0px!important;
+.map-pointer {
+    &:hover {
+        color: #222B30!important;
+        text-decoration: none!important;
+        background-color: #f2f2f2!important;
+    }
+    &:focus {
+        &:hover {
+        color: #222B30!important;
+        text-decoration: none!important;
+        background-color: #f2f2f2!important;
+    }
+        color: #fff!important;
+        background-color: rgba(0, 0, 0, 0.1)!important;
+        outline: 0px!important;
+        outline-offset: 0px!important;
+    }
 }
 
 .stage-toggle-active {
     color: #222B30;
     text-decoration: none;
     background-color: #f2f2f2;
-}
-
-.stage-toggle-active:focus {
-    color: #222B30!important;
-    text-decoration: none!important;
-    background-color: #f2f2f2!important;
+    &:hover,
+    &:focus {
+        color: #222B30!important;
+        text-decoration: none!important;
+        background-color: #f2f2f2!important;
+    }
 }

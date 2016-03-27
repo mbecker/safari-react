@@ -426,20 +426,21 @@ export const Maps2 = React.createClass({
                 </ul>
               </div>
               <div className="stage-shelf stage-shelf-right hidden" id="rightsidebar" ref="rightsidebar">
-                <div className="map-nav-container">
-                  <ul className="map-nav-list nav nav-bordered nav-stacked clearfix" id="mapsettings">
-                    <li className="nav-header">Settings</li>
+                <div className="map-nav-container ">
+                  <ul className="map-nav-list nav nav-bordered clearfix" id="mapsettings">
+                    
                     <li className={ this.state.selectedItem == 1 ? "active" : null }>
                       <a href="#" data-id="1" onClick={ this.toggleSettingsPanel }>Maps</a>
                     </li>
                     <li className={ this.state.selectedItem == 2 ? "active" : null }>
                       <a href="#" data-id="2" onClick={ this.toggleSettingsPanel }>Animals</a>
                     </li>
-                    <ul ref="mapsettings" className={ this.state.selectedItem == 1 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
+                    
+                  </ul>
+                  <ul ref="mapsettings" className={ this.state.selectedItem == 1 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
                     </ul>
                     <ul ref="animalsettings" className={ this.state.selectedItem == 2 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
                     </ul>
-                  </ul>
                 </div>
                 <ul id="live" ref="live" className="map-live nav nav-bordered nav-stacked">
                   <li className="nav-divider"></li>
