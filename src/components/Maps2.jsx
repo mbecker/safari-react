@@ -365,12 +365,25 @@ export const Maps2 = React.createClass({
         e.stopPropagation();
         // stop default action of link
         e.preventDefault();
-        toggle(this.refs.marker, 'stage-toggle-active');
-        this.setState({
-            crosshair: 'crosshair',
-            markertext: 'Click on map'
+        if(L.DomUtil.hasClass(this.refs.marker, 'stage-toggle-active')) {
+            L.DomUtil.removeClass(this.refs.marker, 'stage-toggle-active');
+            this.setState({
+            crosshair: '',
+            markertext: 'Spot an animal'
         });
-        map.on('click', this.handleMapClick);
+            
+            map.off('click', this.handleMapClick);
+        } else {
+            L.DomUtil.addClass(this.refs.marker, 'stage-toggle-active');
+            this.setState({
+                crosshair: 'crosshair',
+                markertext: 'Click on map'
+            });
+            map.on('click', this.handleMapClick);
+        }
+        
+        
+        
     },
     handleMapClick(e) {
         var newGeoPosition = [e.latlng.lat, e.latlng.lng];
@@ -445,7 +458,7 @@ export const Maps2 = React.createClass({
                 <button className="btn btn-link stage-toggle stage-toggle-right" data-target="#app-stage" data-toggle="stage" onClick={ this.handleRightSidebar }>
                   <span className="icon icon-menu stage-toggle-icon"></span> Map
                 </button>
-                <button ref="marker" className="btn btn-link stage-toggle stage-toggle-left-bottom map-pointer-font" data-target="#app-stage" data-toggle="stage" onClick={ this.handleMarker }>
+                <button ref="marker" className="btn btn-link stage-toggle stage-toggle-left-bottom map-pointer" data-target="#app-stage" data-toggle="stage" onClick={ this.handleMarker }>
                   <span className="icon icon-location-pin stage-toggle-icon"></span> { this.state.markertext }
                 </button>
                 <div className="container docs-content block block-inverse text-center" id="maplayer" style={ mapHeight }>

@@ -81,7 +81,7 @@ export default (store) => {
                 indexRoute: {
                     getComponent: (location, cb) => {
                         require.ensure([], (require) => {
-                            cb(null, Maps)
+                            cb(null, Maps2)
                         })
                     }
                 }

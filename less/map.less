@@ -173,6 +173,7 @@
 .rtl * {
     direction: ltr;
 }
+
 .stage {
     transition: transform 300ms cubic-bezier(0.2, 0.7, 0.5, 1);
 }
@@ -182,9 +183,9 @@
 }
 
 .stage-open-right {
-    
     transform: translateX(-250px)
 }
+
 
 /* Maps.jsx */
 
@@ -239,15 +240,15 @@
 .leaflet-popup-pane {
     color: black;
 }
+
 .block-foreground {
     background: #222B30!important;
     padding: 60px!important;
 }
 
 // Icons
-
 .stage-toggle-left-bottom {
-        bottom: 120px;
+    bottom: 120px;
     top: auto;
 }
 
@@ -256,6 +257,7 @@
     width: 20px;
     height: 30px;
 }
+
 .icon-menu-giraffe:before {
     position: relative;
     top: 2px;
@@ -265,11 +267,23 @@
     background-size: cover;
 }
 
-.map-pointer-font {
+.map-pointer-font {}
 
+.map-pointer:focus {
+    color: #fff!important;
+    background-color: rgba(0, 0, 0, 0.1)!important;
+    outline: 0px!important;
+    outline-offset: 0px!important;
 }
+
 .stage-toggle-active {
-    color: @stage-toggle-hover-color;
+    color: #222B30;
     text-decoration: none;
-    background-color: @stage-toggle-hover-bg;
+    background-color: #f2f2f2;
+}
+
+.stage-toggle-active:focus {
+    color: #222B30!important;
+    text-decoration: none!important;
+    background-color: #f2f2f2!important;
 }
