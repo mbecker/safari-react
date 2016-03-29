@@ -8,7 +8,7 @@ import '../lib/events.js';
 import { toggle } from './../lib/helper';
 import { SettingsLayer } from '../lib/leaflet-settingslayer.js';
 
-var Slider = require('react-slick');
+var Carousel = require('nuka-carousel');
 
 var update = require('react-addons-update');
 
@@ -76,7 +76,7 @@ export const Maps2 = React.createClass({
                 mapHeight: window.innerHeight
             });
         });
-        
+
         // mapbox: //styles/mbecker/cilfmavza004qcykv7rasi2w3
 
 
@@ -285,14 +285,14 @@ export const Maps2 = React.createClass({
             FireBaseRef.orderByChild("timestamp").startAt(estimatedServerTimeMs).on("child_added", function(snapshot) {
                 var date = new Date(snapshot.val().timestamp / 100);
                 var timestamp = snapshot.val().timestamp;
-                var content = `<h2>A ferry ride!<\/h2>
+                var content = `<h2>A ferry ride!</h2>
                 <p>Date: ${new Date(timestamp)}</p>
                 <p>Timestamp ${timestamp}</p>`;
                 animalgroup.addLayer(L.marker(snapshot.val().l).bindPopup(content));
             });
         });
 
-        
+
     },
     handleResize(e) {
         this.setState({
@@ -344,12 +344,12 @@ export const Maps2 = React.createClass({
         e.stopPropagation();
         // stop default action of link
         e.preventDefault();
-        if(L.DomUtil.hasClass(this.refs.marker, 'map-pointer-active')) {
+        if (L.DomUtil.hasClass(this.refs.marker, 'map-pointer-active')) {
             L.DomUtil.removeClass(this.refs.marker, 'map-pointer-active');
             this.setState({
-            markertext: 'Spot an animal'
-        });
-            
+                markertext: 'Spot an animal'
+            });
+
             map.off('click', this.handleMapClick);
         } else {
             L.DomUtil.addClass(this.refs.marker, 'map-pointer-active');
@@ -358,9 +358,6 @@ export const Maps2 = React.createClass({
             });
             map.on('click', this.handleMapClick);
         }
-        
-        
-        
     },
     handleMapClick(e) {
         var newGeoPosition = [e.latlng.lat, e.latlng.lng];
@@ -377,14 +374,6 @@ export const Maps2 = React.createClass({
             height: this.state.mapHeight,
             cursor: this.state.markertext == "Click on map" ? "crosshair" : ""
         };
-        var settings = {
-          dots: false,
-          infinite: false,
-          speed: 500,
-          slidesToShow: 1,
-          slidesToScroll: 1
-        };
-
         return (
             <div>
               <div className="stage-shelf hidden" id="sidebar" ref="sidebar">
@@ -412,38 +401,18 @@ export const Maps2 = React.createClass({
               <div className="stage-shelf stage-shelf-right hidden" id="rightsidebar" ref="rightsidebar">
                 <div className="map-nav-container ">
                   <ul className="map-nav-list nav nav-tabs clearfix" id="mapsettings">
-                    
                     <li className={ this.state.selectedItem == 1 ? "active" : null }>
                       <a href="#" data-id="1" onClick={ this.toggleSettingsPanel }>Maps</a>
                     </li>
                     <li className={ this.state.selectedItem == 2 ? "active" : null }>
                       <a href="#" data-id="2" onClick={ this.toggleSettingsPanel }>Animals</a>
                     </li>
-                    
                   </ul>
                   <ul ref="mapsettings" className={ this.state.selectedItem == 1 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
-                    </ul>
-                    <ul ref="animalsettings" className={ this.state.selectedItem == 2 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
-                    </ul>
-                </div>
-                <div className='slick-container'>
-      	<Slider {...settings}>
-        	<img src='http://placekitten.com/g/400/200' />
-          <img src='http://placekitten.com/g/400/200' />
-          <img src='http://placekitten.com/g/400/200' />
-          <img src='http://placekitten.com/g/400/200' />
-        </Slider>
-      </div>
-      
-                <Slider {...settings} className="map-live nav nav-bordered nav-stacked">
-        	{ this.state.geopositions.map((result) => {
-                          return <ListItemWrapper key={ result.g } data={ result } />;
-                      }) }
-        </Slider>
-                    
-                      
-                      
-                      
+                  </ul>
+                  <ul ref="animalsettings" className={ this.state.selectedItem == 2 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
+                  </ul>
+                </div>               
               </div>
               <div className="stage" id="app-stage" ref="stage">
                 <button ref="btnleft" className="btn btn-link stage-toggle" data-target="#app-stage" data-toggle="stage" onClick={ this.handleSidebar }>
@@ -453,8 +422,20 @@ export const Maps2 = React.createClass({
                   <span className="icon icon-menu stage-toggle-icon"></span> Map
                 </button>
                 <button ref="marker" className="btn btn-link stage-toggle stage-toggle-left-bottom map-pointer" data-target="#app-stage" data-toggle="stage" onClick={ this.handleMarker }>
-                  <span className="icon icon-location-pin stage-toggle-icon"></span> { this.state.markertext }
+                  <span className="icon icon-location-pin stage-toggle-icon"></span>
+                  { this.state.markertext }
                 </button>
+                <div className="row livespots">
+                  <div className="col-md-12">
+                    <div className="panel panel-bold panel-info">
+                    <Carousel className="panel-body">
+                  { this.state.geopositions.map((result) => {
+                        return <ListItemWrapper key={ result.g } data={ result } />;
+                    }) }
+                </Carousel>
+                    </div>
+                  </div>
+                </div>
                 <div className="container docs-content block block-inverse text-center" id="maplayer" style={ mapHeight }>
                   <div className="block-foreground" ref="block">
                     <h1 className="block-title">Login or Register</h1>
@@ -487,10 +468,8 @@ var ListItemWrapper = React.createClass({
         map.panTo(new L.LatLng(this.props.data.l[0], this.props.data.l[1]));
     },
     render: function() {
-        return <div style={{height: 200}}>
-                 <a href="#" onClick={ this.setMapCenter }>
-                   { this.props.data.l }
-                 </a>
-               </div>;
+        return <a href="#" onClick={ this.setMapCenter }>
+                    <img src='http://placekitten.com/g/400/200' />
+                 </a>;
     }
 });
