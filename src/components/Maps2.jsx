@@ -412,7 +412,7 @@ export const Maps2 = React.createClass({
                   </ul>
                   <ul ref="animalsettings" className={ this.state.selectedItem == 2 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
                   </ul>
-                </div>               
+                </div>
               </div>
               <div className="stage" id="app-stage" ref="stage">
                 <button ref="btnleft" className="btn btn-link stage-toggle" data-target="#app-stage" data-toggle="stage" onClick={ this.handleSidebar }>
@@ -428,11 +428,11 @@ export const Maps2 = React.createClass({
                 <div className="row livespots">
                   <div className="col-md-12">
                     <div className="panel panel-bold panel-info">
-                    <Carousel className="panel-body">
-                  { this.state.geopositions.map((result) => {
-                        return <ListItemWrapper key={ result.g } data={ result } />;
-                    }) }
-                </Carousel>
+                      <Carousel className="panel-body">
+                        { this.state.geopositions.map((result) => {
+                              return <ListItemWrapper key={ result.g } data={ result } />;
+                          }) }
+                      </Carousel>
                     </div>
                   </div>
                 </div>
@@ -464,12 +464,16 @@ export default connect(
 var ListItemWrapper = React.createClass({
 
     setMapCenter(e) {
+        // click on this link will cause ONLY child alert to fire
+        e.stopPropagation();
+        // stop default action of link
         e.preventDefault();
         map.panTo(new L.LatLng(this.props.data.l[0], this.props.data.l[1]));
     },
     render: function() {
-        return <a href="#" onClick={ this.setMapCenter }>
-                    <img src='http://placekitten.com/g/400/200' />
-                 </a>;
+        return <div style={ {width: 200, height: 150, textAlign: 'center', cursor: 'pointer', background: 'url(http://media1.santabanta.com/full1/Animals/Elephants/elephants-9a.jpg)', backgroundSize: 'cover'} } onClick={ this.setMapCenter }>
+                 
+                                   <h1 style={{margin: 0}}>Elephant</h1>
+                                </div>;
     }
 });
