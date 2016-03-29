@@ -130,8 +130,13 @@
     }
 }
 
+.stage-shelf-right {
+    overflow: auto;
+    position: absolute;
+}
+
 .stage-shelf {
-    overflow: scroll;
+    
     background: #222B30;
     color: #f2f2f2;
     .nav-bordered.nav-stacked > li > a {
@@ -254,7 +259,9 @@
 
 .map-live {
     position: relative;
+    overflow: hidden;
     margin-top: -200px;
+    height: 200px;
     /* Negativer Wert der Footer-HÃ¶he */
     clear: both;
     .nav-divider {
@@ -264,10 +271,27 @@
 }
 
 .map-live ul {
-    overflow-y: scroll;
+    overflow-y: hidden;
     overflow-x: hidden;
     height: 150px;
     padding-bottom: 25px;
+}
+
+.slick-container {
+  margin: 0 auto;
+  padding: 40px;
+  width: 80%;
+  color: #333;
+  background: #419be0;
+}
+
+.slick-prev {
+    left: 0px!important;
+    z-index: 1999;
+}
+.slick-next {
+    right: 0px!important;
+    z-index: 1999;
 }
 
 .clearfix:after {

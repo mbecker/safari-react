@@ -8,6 +8,8 @@ import '../lib/events.js';
 import { toggle } from './../lib/helper';
 import { SettingsLayer } from '../lib/leaflet-settingslayer.js';
 
+var Slider = require('react-slick');
+
 var update = require('react-addons-update');
 
 const position = [51.505, -0.09];
@@ -74,8 +76,7 @@ export const Maps2 = React.createClass({
                 mapHeight: window.innerHeight
             });
         });
-
-
+        
         // mapbox: //styles/mbecker/cilfmavza004qcykv7rasi2w3
 
 
@@ -376,6 +377,13 @@ export const Maps2 = React.createClass({
             height: this.state.mapHeight,
             cursor: this.state.markertext == "Click on map" ? "crosshair" : ""
         };
+        var settings = {
+          dots: false,
+          infinite: false,
+          speed: 500,
+          slidesToShow: 1,
+          slidesToScroll: 1
+        };
 
         return (
             <div>
@@ -418,15 +426,24 @@ export const Maps2 = React.createClass({
                     <ul ref="animalsettings" className={ this.state.selectedItem == 2 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
                     </ul>
                 </div>
-                <ul id="live" ref="live" className="map-live nav nav-bordered nav-stacked">
-                  <li className="nav-divider"></li>
-                  <li className="nav-header">Live @Addo</li>
-                  <ul className="nav nav-bordered nav-stacked">
-                    { this.state.geopositions.map((result) => {
+                <div className='slick-container'>
+      	<Slider {...settings}>
+        	<img src='http://placekitten.com/g/400/200' />
+          <img src='http://placekitten.com/g/400/200' />
+          <img src='http://placekitten.com/g/400/200' />
+          <img src='http://placekitten.com/g/400/200' />
+        </Slider>
+      </div>
+      
+                <Slider {...settings} className="map-live nav nav-bordered nav-stacked">
+        	{ this.state.geopositions.map((result) => {
                           return <ListItemWrapper key={ result.g } data={ result } />;
                       }) }
-                  </ul>
-                </ul>
+        </Slider>
+                    
+                      
+                      
+                      
               </div>
               <div className="stage" id="app-stage" ref="stage">
                 <button ref="btnleft" className="btn btn-link stage-toggle" data-target="#app-stage" data-toggle="stage" onClick={ this.handleSidebar }>
@@ -470,10 +487,10 @@ var ListItemWrapper = React.createClass({
         map.panTo(new L.LatLng(this.props.data.l[0], this.props.data.l[1]));
     },
     render: function() {
-        return <li>
+        return <div style={{height: 200}}>
                  <a href="#" onClick={ this.setMapCenter }>
                    { this.props.data.l }
                  </a>
-               </li>;
+               </div>;
     }
 });
