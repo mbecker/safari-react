@@ -3,6 +3,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import * as actions from './../reducer/actions';
 
+var classNames = require('classnames');
+
 import { MapBox } from './../Page'
 import '../lib/events.js';
 import { toggle } from './../lib/helper';
@@ -37,40 +39,34 @@ export const Maps2 = React.createClass({
             tabContent: [],
             geopositions: [],
             selectedItem: 1,
-            markertext: 'Spot an animal'
+            markertext: 'Spot an animal',
+            showLive: false
         };
     },
     componentWillMount: function() {
-        const guessedServerTimeMs = new Date().getTime() - hourInMs;
+        const guessedServerTimeMs = new Date().getTime();
+
+        // Live added spots
         FireBaseRef.orderByChild("timestamp").startAt(guessedServerTimeMs).on("child_added", (snapshot) => {
             var date = new Date(snapshot.val().timestamp / 1000);
             var timestamp = new Date(snapshot.val().timestamp / 1000);
             // var date = timestamp + 1000 * 60 * 60 * 24 *7;
-            var content = '<h2>A ferry ride!<\/h2>' +
-                '<p>Start at: ' + date + '<br \/>' +
-                'Time:  ' + timestamp + '<\/p>';
 
             // Object snapshot.val()
-                // g:"kd4359x9xc"
-                // l:Array[2]
-                //     0:-33.56571442090888
-                //     1:25.828514099121094
-                // timestamp:1458745309708    
+            // g:"kd4359x9xc"
+            // l:Array[2]
+            //     0:-33.56571442090888
+            //     1:25.828514099121094
+            // timestamp:1458745309708    
 
             var newArray = update(this.state.geopositions, {
                 $unshift: [snapshot.val()]
             });
-            if (newArray > 0) {
-                this.setState({
-                    mapHeight: window.innerHeight - 180,
-                    geopositions: newArray
-                });
-            } else {
-                this.setState({
-                    mapHeight: window.innerHeight - 180,
-                    geopositions: newArray
-                });
-            }
+            this.setState({
+                geopositions: newArray,
+                showLive: true,
+                mapHeight: window.innerHeight - 180
+            });
         });
     },
     componentWillUnmount() {
@@ -80,15 +76,9 @@ export const Maps2 = React.createClass({
         window.addEventListener("optimizedResize", this.handleResize);
         setTimeout(() => {
             // this.headerHeight = document.getElementById('header2').offsetHeight;
-            if (this.state.geopositions.length > 0) {
-                this.setState({
-                    mapHeight: window.innerHeight - 180
-                });
-            } else {
-                this.setState({
-                    mapHeight: window.innerHeight - 180
-                });
-            }
+            this.setState({
+                mapHeight: window.innerHeight
+            });
         });
 
 
@@ -311,7 +301,7 @@ export const Maps2 = React.createClass({
 
     },
     handleResize(e) {
-        if (this.state.geopositions.length > 0) {
+        if (this.state.geopositions.length > 0 && this.state.showLive) {
             this.setState({
                 mapHeight: window.innerHeight - 180
             });
@@ -382,6 +372,7 @@ export const Maps2 = React.createClass({
         }
     },
     handleMapClick(e) {
+
         var newGeoPosition = [e.latlng.lat, e.latlng.lng];
         geoFire.push(newGeoPosition).then(function(location) {});
         map.off('click', this.handleMapClick);
@@ -391,11 +382,38 @@ export const Maps2 = React.createClass({
             markertext: 'Spot an animal'
         });
     },
+    showLiveRow(e) {
+        // click on this link will cause ONLY child alert to fire
+        e.stopPropagation();
+        // stop default action of link
+        e.preventDefault();
+        let mapHeight;
+        if (this.state.showLive) {
+            mapHeight = window.innerHeight
+        } else {
+            mapHeight = window.innerHeight - 180
+        }
+
+        this.setState({
+            mapHeight: mapHeight,
+            showLive: !this.state.showLive
+        });
+    },
     render() {
         let mapHeight = {
             height: this.state.mapHeight,
             cursor: this.state.markertext == "Click on map" ? "crosshair" : ""
         };
+        let liveRow = classNames({
+            'row': true,
+            'hidden': !this.state.showLive,
+            'visible': this.state.showLive
+        });
+        let liveRowIcon = classNames({
+            'icon': true,
+            'icon-chevron-thin-up': !this.state.showLive,
+            'icon-chevron-thin-down': this.state.showLive
+        });
         return (
             <div>
               <div className="stage-shelf hidden" id="sidebar" ref="sidebar">
@@ -443,30 +461,30 @@ export const Maps2 = React.createClass({
                 <button ref="btnright" className="btn btn-link stage-toggle stage-toggle-right" data-target="#app-stage" data-toggle="stage" onClick={ this.handleRightSidebar }>
                   <span className="icon icon-menu stage-toggle-icon"></span> Map
                 </button>
-                <button ref="marker" className="btn btn-link stage-toggle stage-toggle-left-bottom map-pointer" data-target="#app-stage" data-toggle="stage" onClick={ this.handleMarker }>
-                  <span className="icon icon-location-pin stage-toggle-icon"></span>
-                  { this.state.markertext }
-                </button>
                 <div className="container docs-content block block-inverse text-center" id="maplayer" style={ mapHeight }>
                   <div className="block-foreground" ref="block">
                     <h1 className="block-title">Login or Register</h1>
                     <h4 className="text-muted">Use block-background to integrate interactive backgrounds.</h4>
                     <button className="btn btn-default btn-outline m-t" onClick={ this.closeBlock }>Login / Register</button>
                   </div>
+                  <button ref="marker" className="btn btn-link stage-toggle stage-toggle-left-bottom map-pointer" data-target="#app-stage" data-toggle="stage" onClick={ this.handleMarker }>
+                    <span className="icon icon-location-pin stage-toggle-icon"></span>
+                    { this.state.markertext }
+                  </button>
+                  <button ref="markerlive" className="btn btn-link liverowbutton" data-target="#app-stage" data-toggle="stage" onClick={ this.showLiveRow }>
+                    <span className={ liveRowIcon }></span>
+                    { this.state.showLive ? "Hide live sports" : "Show live sports" }
+                  </button>
                 </div>
-                <div className="row" style={ {    margin: 0} }>
-                  <div className="col-md-12">
-                    <Carousel className="panel-body">
-                      { this.state.geopositions.map((result) => {
-                            return <ListItemWrapper key={ result.g } data={ result } />;
-                        }) }
-                    </Carousel>
-                  </div>
+                <div className={ liveRow } style={ {    margin: 0} }>
+                  <Carousel className="panel-body">
+                    { this.state.geopositions.map((result) => {
+                          return <ListItemWrapper key={ result.g } data={ result } />;
+                      }) }
+                  </Carousel>
                 </div>
               </div>
             </div>
-
-
 
         )
     }
@@ -488,11 +506,20 @@ var ListItemWrapper = React.createClass({
         e.stopPropagation();
         // stop default action of link
         e.preventDefault();
-        map.panTo(new L.LatLng(this.props.data.l[0], this.props.data.l[1]));
+        map.setView(new L.LatLng(this.props.data.l[0], this.props.data.l[1]), 16, {
+            animation: true
+        });
     },
     render: function() {
-        return <div className="livespots-item" style={ {    background: 'url(http://media1.santabanta.com/full1/Animals/Elephants/elephants-9a.jpg)',    backgroundSize: 'cover'} } onClick={ this.setMapCenter }>
-                 <h1 style={ {    margin: 0} }>{ this.props.data.l[0] }</h1>
+        let itemStyle = {
+            background: 'url(http://media1.santabanta.com/full1/Animals/Elephants/elephants-9a.jpg)',
+            backgroundSize: 'cover',
+            height: 150
+        }
+        return <div className="livespots-item" onClick={ this.setMapCenter }>
+                 <div style={ itemStyle }>
+                   <h1 style={ {    margin: 0,    width: 200,    overflow: 'hidden'} }>{ this.props.data.l[0] }</h1>
+                 </div>
                </div>;
     }
 });
