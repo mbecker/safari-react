@@ -59,10 +59,18 @@ export const Maps2 = React.createClass({
 
             var newArray = update(this.state.geopositions, {
                 $unshift: [snapshot.val()]
-            })
-            this.setState({
-                geopositions: newArray
             });
+            if (newArray > 0) {
+                this.setState({
+                    mapHeight: window.innerHeight - 180,
+                    geopositions: newArray
+                });
+            } else {
+                this.setState({
+                    mapHeight: window.innerHeight - 180,
+                    geopositions: newArray
+                });
+            }
         });
     },
     componentWillUnmount() {
@@ -72,10 +80,18 @@ export const Maps2 = React.createClass({
         window.addEventListener("optimizedResize", this.handleResize);
         setTimeout(() => {
             // this.headerHeight = document.getElementById('header2').offsetHeight;
-            this.setState({
-                mapHeight: window.innerHeight
-            });
+            if (this.state.geopositions.length > 0) {
+                this.setState({
+                    mapHeight: window.innerHeight - 180
+                });
+            } else {
+                this.setState({
+                    mapHeight: window.innerHeight - 180
+                });
+            }
         });
+
+
 
         // mapbox: //styles/mbecker/cilfmavza004qcykv7rasi2w3
 
@@ -295,9 +311,15 @@ export const Maps2 = React.createClass({
 
     },
     handleResize(e) {
-        this.setState({
-            mapHeight: window.innerHeight
-        });
+        if (this.state.geopositions.length > 0) {
+            this.setState({
+                mapHeight: window.innerHeight - 180
+            });
+        } else {
+            this.setState({
+                mapHeight: window.innerHeight
+            });
+        }
     },
     handleSidebar(e) {
         // click on this link will cause ONLY child alert to fire
@@ -425,22 +447,20 @@ export const Maps2 = React.createClass({
                   <span className="icon icon-location-pin stage-toggle-icon"></span>
                   { this.state.markertext }
                 </button>
-                <div className="row livespots">
-                  <div className="col-md-12">
-                    <div className="panel panel-bold panel-info">
-                      <Carousel className="panel-body">
-                        { this.state.geopositions.map((result) => {
-                              return <ListItemWrapper key={ result.g } data={ result } />;
-                          }) }
-                      </Carousel>
-                    </div>
-                  </div>
-                </div>
                 <div className="container docs-content block block-inverse text-center" id="maplayer" style={ mapHeight }>
                   <div className="block-foreground" ref="block">
                     <h1 className="block-title">Login or Register</h1>
                     <h4 className="text-muted">Use block-background to integrate interactive backgrounds.</h4>
                     <button className="btn btn-default btn-outline m-t" onClick={ this.closeBlock }>Login / Register</button>
+                  </div>
+                </div>
+                <div className="row" style={ {    margin: 0} }>
+                  <div className="col-md-12">
+                    <Carousel className="panel-body">
+                      { this.state.geopositions.map((result) => {
+                            return <ListItemWrapper key={ result.g } data={ result } />;
+                        }) }
+                    </Carousel>
                   </div>
                 </div>
               </div>
@@ -471,9 +491,8 @@ var ListItemWrapper = React.createClass({
         map.panTo(new L.LatLng(this.props.data.l[0], this.props.data.l[1]));
     },
     render: function() {
-        return <div className="livespots-item" style={{background: 'url(http://media1.santabanta.com/full1/Animals/Elephants/elephants-9a.jpg)', backgroundSize: 'cover' }} onClick={ this.setMapCenter }>
-                 
-                                   <h1 style={{margin: 0}}>{this.props.data.l[0]}</h1>
-                                </div>;
+        return <div className="livespots-item" style={ {    background: 'url(http://media1.santabanta.com/full1/Animals/Elephants/elephants-9a.jpg)',    backgroundSize: 'cover'} } onClick={ this.setMapCenter }>
+                 <h1 style={ {    margin: 0} }>{ this.props.data.l[0] }</h1>
+               </div>;
     }
 });
