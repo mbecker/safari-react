@@ -471,9 +471,9 @@ var ListItemWrapper = React.createClass({
         map.panTo(new L.LatLng(this.props.data.l[0], this.props.data.l[1]));
     },
     render: function() {
-        return <div style={ {width: 200, height: 150, textAlign: 'center', cursor: 'pointer', background: 'url(http://media1.santabanta.com/full1/Animals/Elephants/elephants-9a.jpg)', backgroundSize: 'cover'} } onClick={ this.setMapCenter }>
+        return <div className="livespots-item" style={{background: 'url(http://media1.santabanta.com/full1/Animals/Elephants/elephants-9a.jpg)', backgroundSize: 'cover' }} onClick={ this.setMapCenter }>
                  
-                                   <h1 style={{margin: 0}}>Elephant</h1>
+                                   <h1 style={{margin: 0}}>{this.props.data.l[0]}</h1>
                                 </div>;
     }
 });
