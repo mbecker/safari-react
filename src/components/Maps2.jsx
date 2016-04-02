@@ -289,11 +289,19 @@ export const Maps2 = React.createClass({
 
 
             FireBaseRef.orderByChild("timestamp").startAt(estimatedServerTimeMs).on("child_added", function(snapshot) {
+                let itemStyle = {
+            background: 'url(http://media1.santabanta.com/full1/Animals/Elephants/elephants-9a.jpg)',
+            backgroundSize: 'cover',
+            height: 150
+        }
                 var date = new Date(snapshot.val().timestamp / 100);
                 var timestamp = snapshot.val().timestamp;
-                var content = `<h2>A ferry ride!</h2>
+                var content = `<div style="background: url(http://media1.santabanta.com/full1/Animals/Elephants/elephants-9a.jpg); background-size: cover; height: 150px;">
+                <h2>A ferry ride!</h2>
                 <p>Date: ${new Date(timestamp)}</p>
-                <p>Timestamp ${timestamp}</p>`;
+                <p>Timestamp ${timestamp}</p>
+                <p>ID ${snapshot.val().g}</p>
+                </div>`;
                 animalgroup.addLayer(L.marker(snapshot.val().l).bindPopup(content));
             });
         });
@@ -471,10 +479,12 @@ export const Maps2 = React.createClass({
                     <span className="icon icon-location-pin stage-toggle-icon"></span>
                     { this.state.markertext }
                   </button>
+                  { this.state.geopositions.length > 0 ?
+                    (
                   <button ref="markerlive" className="btn btn-link liverowbutton" data-target="#app-stage" data-toggle="stage" onClick={ this.showLiveRow }>
                     <span className={ liveRowIcon }></span>
-                    { this.state.showLive ? "Hide live sports" : "Show live sports" }
-                  </button>
+                    { this.state.showLive ? "Hide live spots" : "Show live spots" }
+                  </button> ) : null }
                 </div>
                 <div className={ liveRow } style={ {    margin: 0} }>
                   <Carousel className="panel-body">
@@ -518,7 +528,7 @@ var ListItemWrapper = React.createClass({
         }
         return <div className="livespots-item" onClick={ this.setMapCenter }>
                  <div style={ itemStyle }>
-                   <h1 style={ {    margin: 0,    width: 200,    overflow: 'hidden'} }>{ this.props.data.l[0] }</h1>
+                   <h1 style={ {    margin: 0,    width: 200,    overflow: 'hidden'} }>{ this.props.data.g }</h1>
                  </div>
                </div>;
     }
