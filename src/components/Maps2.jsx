@@ -10,6 +10,8 @@ import '../lib/events.js';
 import { toggle } from './../lib/helper';
 import { SettingsLayer } from '../lib/leaflet-settingslayer.js';
 
+var Menu = require('react-burger-menu').slide;
+
 var Carousel = require('nuka-carousel');
 
 var update = require('react-addons-update');
@@ -40,7 +42,8 @@ export const Maps2 = React.createClass({
             geopositions: [],
             selectedItem: 1,
             markertext: 'Spot an animal',
-            showLive: false
+            showLive: false,
+            isMenuOpen: false
         };
     },
     componentWillMount: function() {
@@ -324,11 +327,15 @@ export const Maps2 = React.createClass({
         e.stopPropagation();
         // stop default action of link
         e.preventDefault();
-        toggle(this.refs.btnleft, 'stage-toggle-active');
-        this.refs.sidebar.scrollTop = 0;
-        toggle(this.refs.sidebar, 'hidden');
-        toggle(this.refs.stage, 'stage-open');
-        toggle(this.refs.stage, 'stage-open-left');
+        this.setState({
+            isMenuOpen: true
+        });
+        // this.refs.burgermenu.isOpen = true;
+        // toggle(this.refs.btnleft, 'stage-toggle-active');
+        // this.refs.sidebar.scrollTop = 0;
+        // toggle(this.refs.sidebar, 'hidden');
+        // toggle(this.refs.stage, 'stage-open');
+        // toggle(this.refs.stage, 'stage-open-left');
     },
     handleRightSidebar(e) {
         // click on this link will cause ONLY child alert to fire
@@ -424,6 +431,32 @@ export const Maps2 = React.createClass({
         });
         return (
             <div>
+
+            
+          <Menu isOpen={this.state.isMenuOpen} ref="burgermenu" width={ 250 } >
+            <ul className="nav nav-bordered nav-stacked">
+                  <li className="nav-header">Examples</li>
+                  <li>
+                    <a href="../index.html">Startup</a>
+                  </li>
+                  <li>
+                    <a href="../minimal/index.html">Minimal</a>
+                  </li>
+                  <li>
+                    <a href="../bold/index.html">Bold</a>
+                  </li>
+                  <li className="nav-divider"></li>
+                  <li className="nav-header">Docs</li>
+                  <li className="active">
+                    <a href="../docs/index.html">Toolkit</a>
+                  </li>
+                  <li>
+                    <a href="http://getbootstrap.com">Bootstrap</a>
+                  </li>
+                </ul>
+          </Menu>
+        
+
               <div className="stage-shelf hidden" id="sidebar" ref="sidebar">
                 <ul className="nav nav-bordered nav-stacked">
                   <li className="nav-header">Examples</li>

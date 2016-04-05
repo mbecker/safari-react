@@ -226,14 +226,15 @@
 
 .stage {
     transition: transform 300ms cubic-bezier(0.2, 0.7, 0.5, 1);
+    transform: translateX(0px);
 }
 
 .stage-open-left {
-    transform: translateX(250px)
+    transform: translateX(250px);
 }
 
 .stage-open-right {
-    transform: translateX(-250px)
+    transform: translateX(-250px);
 }
 
 
@@ -404,7 +405,7 @@
     padding: 10px;
 }
 
-.livespots > .col-md-12 > .panel{
+.livespots > .col-md-12 > .panel {
     margin: 0px!important;
 }
 
@@ -418,4 +419,104 @@
 
 .slider-decorator-2 {
     display: none;
+}
+
+//
+// Burger menu custom styles
+//
+.bm-burger-button {
+    position: fixed;
+    width: 36px;
+    height: 30px;
+    left: 36px;
+    top: 36px;
+}
+
+.right .bm-burger-button {
+    left: initial;
+    right: 36px;
+}
+
+.bm-burger-bars {
+    background: #222B30;
+}
+
+.bm-morph-shape {
+    fill: #373a47;
+}
+
+.bm-menu {
+    padding-top: 30px;
+    background: #222B30;
+    color: #f2f2f2;
+    .nav-bordered.nav-stacked > li > a {
+        color: #f2f2f2;
+        &:hover {
+            color: #52a1d8;
+        }
+        &:focus {
+            color: #f2f2f2;
+            border-left: 4px solid #222B30;
+        }
+    }
+    .nav-tabs > li > a {
+        color: #f2f2f2;
+        &:hover {
+            color: #52a1d8;
+        }
+        &:focus {
+            color: #f2f2f2;
+        }
+    }
+    // Give the tabs something to sit on
+    .nav-tabs {
+        border-bottom: 1px solid @nav-tabs-border-color;
+        > li {
+            float: left;
+            // Make the list-items overlay the bottom border
+            margin-bottom: -1px;
+            // Actual tabs (as links)
+            > a {
+                font-weight: 500;
+                margin-right: 0px;
+                line-height: @line-height-base;
+                border-radius: 0px;
+                &:hover {
+                    border-color: transparent!important;
+                    background-color: transparent!important;
+                }
+            }
+            // Active state, and its :hover to override normal :hover
+            &.active > a {
+                &,
+                &:hover,
+                &:focus {
+                    color: #52a1d8!important;
+                    background-color: #222B30!important;
+                    border: 1px solid transparent!important;
+                    border-bottom-color: #52a1d8!important;
+                    cursor: default;
+                }
+            }
+        }
+        // pulling this in mainly for less shorthand
+        &.nav-justified {
+            .nav-justified();
+            .nav-tabs-justified();
+        }
+    }
+    .nav-bordered.nav-stacked > li.active > a,
+    .nav-bordered.nav-stacked > li.active > a:hover,
+    .nav-bordered.nav-stacked > li.active > a:focus {
+        border-left-color: #52a1d8;
+        color: #52a1d8;
+    }
+}
+
+.bm-item-list a {
+    padding: 0.8em;
+    span {
+        margin-left: 10px;
+        font-weight: 700;
+    }
 }
