@@ -43,7 +43,8 @@ export const Maps2 = React.createClass({
             selectedItem: 1,
             markertext: 'Spot an animal',
             showLive: false,
-            isMenuOpen: false
+            isMenuOpen: false,
+            isMenuOpenRight: false
         };
     },
     componentWillMount: function() {
@@ -128,6 +129,42 @@ export const Maps2 = React.createClass({
 
         new L.Control.Zoom({
             position: 'bottomleft'
+        }).addTo(map);
+
+        L.control.locate({
+            position: 'bottomleft', // set the location of the control
+            layer: undefined, // use your own layer for the location marker, creates a new layer by default
+            drawCircle: true, // controls whether a circle is drawn that shows the uncertainty about the location
+            follow: false, // follow the user's location
+            setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true
+            keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
+            stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below)
+            remainActive: false, // if true locate control remains active on click even if the user's location is in view.
+            markerClass: L.circleMarker, // L.circleMarker or L.marker
+            circleStyle: {}, // change the style of the circle around the user's location
+            markerStyle: {},
+            followCircleStyle: {}, // set difference for the style of the circle around the user's location while following
+            followMarkerStyle: {},
+            icon: 'fa fa-map-marker', // class for icon, fa-location-arrow or fa-map-marker
+            iconLoading: 'fa fa-spinner fa-spin', // class for loading icon
+            iconElementTag: 'span', // tag for the icon element, span or i
+            circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds
+            metric: true, // use metric or imperial units
+            onLocationError: function(err) {
+                alert(err.message)
+            }, // define an error callback function
+            onLocationOutsideMapBounds: function(context) { // called when outside map boundaries
+                alert(context.options.strings.outsideMapBoundsMsg);
+            },
+            showPopup: true, // display a popup when the user click on the inner marker
+            strings: {
+                title: "Show me where I am", // title of the locate control
+                metersUnit: "meters", // string for metric units
+                feetUnit: "feet", // string for imperial units
+                popup: "You are within {distance} {unit} from this point", // text to appear if user clicks on circle
+                outsideMapBoundsMsg: "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds
+            },
+            locateOptions: {} // define location options e.g enableHighAccuracy: true or maxZoom: 10
         }).addTo(map);
 
         // L.control.layers({
@@ -293,10 +330,10 @@ export const Maps2 = React.createClass({
 
             FireBaseRef.orderByChild("timestamp").startAt(estimatedServerTimeMs).on("child_added", function(snapshot) {
                 let itemStyle = {
-            background: 'url(http://media1.santabanta.com/full1/Animals/Elephants/elephants-9a.jpg)',
-            backgroundSize: 'cover',
-            height: 150
-        }
+                    background: 'url(http://media1.santabanta.com/full1/Animals/Elephants/elephants-9a.jpg)',
+                    backgroundSize: 'cover',
+                    height: 150
+                }
                 var date = new Date(snapshot.val().timestamp / 100);
                 var timestamp = snapshot.val().timestamp;
                 var content = `<div style="background: url(http://media1.santabanta.com/full1/Animals/Elephants/elephants-9a.jpg); background-size: cover; height: 150px;">
@@ -342,11 +379,15 @@ export const Maps2 = React.createClass({
         e.stopPropagation();
         // stop default action of link
         e.preventDefault();
-        toggle(this.refs.btnright, 'stage-toggle-active');
-        this.refs.rightsidebar.scrollTop = 0;
-        toggle(this.refs.rightsidebar, 'hidden');
-        toggle(this.refs.stage, 'stage-open');
-        toggle(this.refs.stage, 'stage-open-right');
+        this.setState({
+            isMenuOpenRight: true
+        });
+
+        // toggle(this.refs.btnright, 'stage-toggle-active');
+        // this.refs.rightsidebar.scrollTop = 0;
+        // toggle(this.refs.rightsidebar, 'hidden');
+        // toggle(this.refs.stage, 'stage-open');
+        // toggle(this.refs.stage, 'stage-open-right');
     },
     toggleSettingsPanel(e) {
         // click on this link will cause ONLY child alert to fire
@@ -414,6 +455,16 @@ export const Maps2 = React.createClass({
             showLive: !this.state.showLive
         });
     },
+    handleMenu(state) {
+        this.setState({
+            isMenuOpen: state.isOpen
+        });
+    },
+    handleMenuRight(state) {
+        this.setState({
+            isMenuOpenRight: state.isOpen
+        });
+    },
     render() {
         let mapHeight = {
             height: this.state.mapHeight,
@@ -431,33 +482,7 @@ export const Maps2 = React.createClass({
         });
         return (
             <div>
-
-            
-          <Menu isOpen={this.state.isMenuOpen} ref="burgermenu" width={ 250 } >
-            <ul className="nav nav-bordered nav-stacked">
-                  <li className="nav-header">Examples</li>
-                  <li>
-                    <a href="../index.html">Startup</a>
-                  </li>
-                  <li>
-                    <a href="../minimal/index.html">Minimal</a>
-                  </li>
-                  <li>
-                    <a href="../bold/index.html">Bold</a>
-                  </li>
-                  <li className="nav-divider"></li>
-                  <li className="nav-header">Docs</li>
-                  <li className="active">
-                    <a href="../docs/index.html">Toolkit</a>
-                  </li>
-                  <li>
-                    <a href="http://getbootstrap.com">Bootstrap</a>
-                  </li>
-                </ul>
-          </Menu>
-        
-
-              <div className="stage-shelf hidden" id="sidebar" ref="sidebar">
+              <Menu isOpen={ this.state.isMenuOpen } onStateChange={ this.handleMenu } ref="burgermenu" width={ 250 }>
                 <ul className="nav nav-bordered nav-stacked">
                   <li className="nav-header">Examples</li>
                   <li>
@@ -478,8 +503,8 @@ export const Maps2 = React.createClass({
                     <a href="http://getbootstrap.com">Bootstrap</a>
                   </li>
                 </ul>
-              </div>
-              <div className="stage-shelf stage-shelf-right hidden" id="rightsidebar" ref="rightsidebar">
+              </Menu>
+              <Menu right width={ 250 } isOpen={ this.state.isMenuOpenRight } onStateChange={ this.handleMenuRight }>
                 <div className="map-nav-container ">
                   <ul className="map-nav-list nav nav-tabs clearfix" id="mapsettings">
                     <li className={ this.state.selectedItem == 1 ? "active" : null }>
@@ -494,7 +519,7 @@ export const Maps2 = React.createClass({
                   <ul ref="animalsettings" className={ this.state.selectedItem == 2 ? "nav nav-bordered nav-stacked show" : "nav nav-bordered nav-stacked hidden" }>
                   </ul>
                 </div>
-              </div>
+              </Menu>
               <div className="stage" id="app-stage" ref="stage">
                 <button ref="btnleft" className="btn btn-link stage-toggle" data-target="#app-stage" data-toggle="stage" onClick={ this.handleSidebar }>
                   <span className="icon icon-menu stage-toggle-icon"></span> Menu
@@ -508,16 +533,19 @@ export const Maps2 = React.createClass({
                     <h4 className="text-muted">Use block-background to integrate interactive backgrounds.</h4>
                     <button className="btn btn-default btn-outline m-t" onClick={ this.closeBlock }>Login / Register</button>
                   </div>
+                  <div class="leaflet-control-zoom leaflet-bar leaflet-control">
+                    <a class="leaflet-control-zoom-in" href="#" title="Zoom in">Panel</a>
+                  </div>
                   <button ref="marker" className="btn btn-link stage-toggle stage-toggle-left-bottom map-pointer" data-target="#app-stage" data-toggle="stage" onClick={ this.handleMarker }>
                     <span className="icon icon-location-pin stage-toggle-icon"></span>
                     { this.state.markertext }
                   </button>
                   { this.state.geopositions.length > 0 ?
                     (
-                  <button ref="markerlive" className="btn btn-link liverowbutton" data-target="#app-stage" data-toggle="stage" onClick={ this.showLiveRow }>
-                    <span className={ liveRowIcon }></span>
-                    { this.state.showLive ? "Hide live spots" : "Show live spots" }
-                  </button> ) : null }
+                    <button ref="markerlive" className="btn btn-link liverowbutton" data-target="#app-stage" data-toggle="stage" onClick={ this.showLiveRow }>
+                      <span className={ liveRowIcon }></span>
+                      { this.state.showLive ? "Hide live spots" : "Show live spots" }
+                    </button> ) : null }
                 </div>
                 <div className={ liveRow } style={ {    margin: 0} }>
                   <Carousel className="panel-body">
